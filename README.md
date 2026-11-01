@@ -9,14 +9,14 @@ Project for **Acterra · Plant Futures Challenge Lab**.
 
 ## The dashboard
 
-Built on the real client data in `dashboard/data/`:
+Built on the real client data (original spreadsheets/PDF are kept in a **private working copy only** —
+gitignored and never published; the dashboard ships the values embedded in its generated JS):
 
-- **Vendor baselines** — 35 vendors from `Vendor_List.xlsx` (cuisine, establishment type, veg/vegan menu
-  options and menu-share percentages; names removed);
-- **Emission factors** — North America factors from `N_America_Emission_Factors.xlsx`
-  (WRI Coolfood / Poore & Nemecek 2018 regional averages);
-- **Implementation roadmap** — the three phases and KPI framework from `Implementation_roadmap.pdf`,
-  with progress tracked per phase and goal progress toward 2030.
+- **Vendor baselines** — 35 vendors: cuisine, establishment type, veg/vegan menu options and menu-share
+  percentages (names removed);
+- **Emission factors** — North America factors (WRI Coolfood / Poore & Nemecek 2018 regional averages);
+- **Implementation roadmap** — the three phases and KPI framework, with progress tracked per phase and
+  goal progress toward 2030.
 
 Views: Overview · Vendors · Roadmap · Emissions · Data & sources.
 

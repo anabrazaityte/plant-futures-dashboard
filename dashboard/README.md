@@ -5,9 +5,10 @@ implementation strategy for the two 2030 goals:
 
 > **+30% plant-based options** and **−25% food-related emissions** by 2030.
 
-The dashboard is built entirely on the **real client data** in `data/` — the vendor list spreadsheet, the
-North America emission-factors spreadsheet, and the Implementation Roadmap PDF — and lets the institution
-track progress along the roadmap and toward the 2030 goals.
+The dashboard is built on the **real client data** supplied in `dashboard/data/` (original spreadsheets and
+PDF are kept in a private working copy only — never published) plus the values embedded in
+`js/vendor-data.js` and `js/emission-data.js`, and lets the institution track progress along the roadmap
+and toward the 2030 goals.
 
 Built with **no build step and no dependencies at runtime** — everything (Chart.js included) is vendored
 locally, so the dashboard runs fully offline by opening `index.html` in any modern browser.
@@ -38,15 +39,14 @@ python3 -m http.server 8000     # optional; a server avoids localStorage quirks 
 
 ## Data
 
-- **Vendors** — `data/Vendor_List.xlsx` (35 vendors). Baseline plant-based (vegetarian) menu share ≈ **28.8%**;
-  vegan-only ≈ **9.9%**; 7 vendors on the coffee-shop track. Machine-readable in `js/vendor-data.js`.
-- **Emission factors** — `data/N_America_Emission_Factors.xlsx`. WRI Coolfood Pledge Calculator NA, underlying
-  Poore & Nemecek (2018) regional averages. Headline metric: **supply-chain total** (kg CO₂e / kg food).
-  Machine-readable in `js/emission-data.js`.
-- **Roadmap** — `data/Implementation_roadmap.pdf`. Three phases (2027 → 2030) and the KPI framework, encoded in
-  `js/data.js` (`DATA.ROADMAP`).
-
-See `data/sample-data.md` for the full tables, conversions, and caveats.
+- **Vendors** — 35 vendors from `Vendor_List.xlsx` (kept private). Baseline plant-based (vegetarian) menu
+  share ≈ **28.8%**; vegan-only ≈ **9.9%**; 7 vendors on the coffee-shop track. Machine-readable in
+  `js/vendor-data.js`.
+- **Emission factors** — North America factors from `N_America_Emission_Factors.xlsx` (kept private). WRI
+  Coolfood Pledge Calculator NA, underlying Poore & Nemecek (2018) regional averages. Headline metric:
+  **supply-chain total** (kg CO₂e / kg food). Machine-readable in `js/emission-data.js`.
+- **Roadmap** — `Implementation_roadmap.pdf` (kept private). Three phases (2027 → 2030) and the KPI
+  framework, encoded in `js/data.js` (`DATA.ROADMAP`).
 
 ## Live site
 
@@ -71,17 +71,14 @@ Published to GitHub Pages (auto-deploys on every push to `main`):
 dashboard/
   index.html              # app shell
   css/styles.css          # design system
-  js/vendor-data.js       # real vendor rows (auto-generated from Vendor_List.xlsx)
-  js/emission-data.js     # real emission factors (auto-generated from N_America_Emission_Factors.xlsx)
+  js/vendor-data.js       # real vendor rows (values from private Vendor_List.xlsx)
+  js/emission-data.js     # real emission factors (values from private N_America_Emission_Factors.xlsx)
   js/data.js              # goals, baselines, roadmap phases & KPIs, sources
   js/calc.js              # calculation helpers (pure functions)
   js/charts.js            # Chart.js helpers
   js/app.js               # views, state, interactions
   lib/chart.umd.min.js    # vendored Chart.js (offline)
-  data/Vendor_List.xlsx   # source: client vendor spreadsheet
-  data/N_America_Emission_Factors.xlsx  # source: emission factors
-  data/Implementation_roadmap.pdf       # source: implementation roadmap
-  data/sample-data.md     # human-readable reference of the real data
+  data/                   # private client sources (.gitignored — never published)
 ```
 
 To regenerate the two data files from the spreadsheets, run `python3 /tmp/kilo/gen_data.py` (requires

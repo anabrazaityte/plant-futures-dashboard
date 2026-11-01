@@ -42,14 +42,14 @@ const DATA = (() => {
   /* group metadata for display (keyed by vendor.group) */
   const GROUP_META = {
     'Cafe / coffee shops':             { emoji: '\u2615', color: '#7a5c3d' },
-    'Full-service dining':             { emoji: '\U0001f372', color: '#5a3d8a' },
-    'Full-service dining & bars':      { emoji: '\U0001f375', color: '#a35a2b' },
-    'Casual sit-down & bars':          { emoji: '\U0001f379', color: '#b4493c' },
-    'Bars':                            { emoji: '\U0001f378', color: '#7a4a2b' },
-    'Fast casual & grab-and-go':       { emoji: '\U0001f35c', color: '#3b6f8f' },
-    'Grab-and-go, deli & market':      { emoji: '\U0001f9fa', color: '#6b7a3d' },
-    'Juice bars':                      { emoji: '\U0001f966', color: '#3e825e' },
-    'Other':                           { emoji: '\U0001f960', color: '#46584e' }
+    'Full-service dining':             { emoji: '\u{1f372}', color: '#5a3d8a' },
+    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#a35a2b' },
+    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#b4493c' },
+    'Bars':                            { emoji: '\u{1f378}', color: '#7a4a2b' },
+    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#3b6f8f' },
+    'Grab-and-go, deli & market':      { emoji: '\u{1f9fa}', color: '#6b7a3d' },
+    'Juice bars':                      { emoji: '\u{1f966}', color: '#3e825e' },
+    'Other':                           { emoji: '\u{1f960}', color: '#46584e' }
   };
 
   /* ------------------------------------------------------------------ */
@@ -122,7 +122,7 @@ const DATA = (() => {
         ]
       },
       {
-        id: 'menu', name: 'Menu KPIs', emoji: '\U0001f372',
+        id: 'menu', name: 'Menu KPIs', emoji: '\u{1f372}',
         desc: 'Baseline plant-based menu share per vendor is available today (Vendor_List.xlsx); institution target = +30% vs baseline.',
         kpis: [
           { id: 'menu-30',          label: 'Progress toward 2030 goal: +30% plant-based options institution-wide', metric: '% vs baseline' },
@@ -133,7 +133,7 @@ const DATA = (() => {
         ]
       },
       {
-        id: 'emissions', name: 'Emissions', emoji: '\U0001f30d',
+        id: 'emissions', name: 'Emissions', emoji: '\u{1f30d}',
         desc: 'Reduction in kg CO2e against [baseline year] emissions toward the 25% goal \u2014 reported separately for the milk initiative, the menu initiative, and combined. Emissions baseline to be established in Phase 1.',
         kpis: [
           { id: 'co2-milk',     label: 'CO2e reduction \u2014 plant-based milk initiative',  metric: 'kg CO2e' },
@@ -142,7 +142,7 @@ const DATA = (() => {
         ]
       },
       {
-        id: 'waste', name: 'Food waste KPIs', emoji: '\U0001f9fa',
+        id: 'waste', name: 'Food waste KPIs', emoji: '\u{1f9fa}',
         desc: 'Tracked from Phase 2 during testing/pilot; baselines established in Phase 1.',
         kpis: [
           { id: 'unsold-counts',  label: 'Daily unsold counts for new plant-based items',         metric: '# items/day' },
@@ -151,7 +151,7 @@ const DATA = (() => {
         ]
       },
       {
-        id: 'experience', name: 'Customer & employee experience', emoji: '\U0001f465',
+        id: 'experience', name: 'Customer & employee experience', emoji: '\u{1f465}',
         desc: 'Track satisfaction alongside the operational KPIs.',
         kpis: [
           { id: 'customer-sat',  label: 'Customer satisfaction',                 metric: 'score' },

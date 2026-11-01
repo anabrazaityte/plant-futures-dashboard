@@ -1,0 +1,6 @@
+# Private client data — never publish or commit these.
+# The dashboard ships only the values in js/vendor-data.js and js/emission-data.js.
+Vendor_List.xlsx
+N_America_Emission_Factors.xlsx
+Implementation_roadmap.pdf
+sample-data.md
