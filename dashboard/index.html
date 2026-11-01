@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plant Futures — Institutional 2030 Goals &amp; Implementation Roadmap</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ================= Sidebar ================= -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#143326" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22V8"/>
+            <path d="M12 8c0-3 2-5 5-5 .5 2.5-.5 5-3 6.5"/>
+            <path d="M9 11c-3-.5-5-2-5-5 2.5-1 5 0 6 2.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">Plant Futures</div>
+          <div class="brand-sub">2030 goals &amp; roadmap</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Dashboard</div>
+      <nav class="nav" id="main-nav"></nav>
+
+      <div class="sidebar-foot">
+        Companion tool for the institutional plant-forward feasibility report.
+        <div><span class="tag">live vendor &amp; emissions data</span></div>
+        <div style="margin-top:6px">Acterra · Plant Futures Challenge Lab · <span id="brand-year"></span></div>
+      </div>
+    </aside>
+
+    <!-- ================= Main ================= -->
+    <main class="main">
+      <div class="topbar">
+        <span class="crumb">Feasibility report companion · <strong id="crumb-name">Overview</strong></span>
+        <span class="spacer"></span>
+        <span class="badge-util">goal: +30% options · −25% emissions by 2030</span>
+        <button class="btn small" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <div class="container">
+
+        <!-- Overview -->
+        <section class="view" id="view-overview"></section>
+
+        <!-- Vendors -->
+        <section class="view hidden" id="view-vendors"></section>
+
+        <!-- Roadmap -->
+        <section class="view hidden" id="view-roadmap"></section>
+
+        <!-- Emissions -->
+        <section class="view hidden" id="view-emissions"></section>
+
+        <!-- Data & sources -->
+        <section class="view hidden" id="view-sources"></section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="lib/chart.umd.min.js"></script>
+  <script src="js/vendor-data.js"></script>
+  <script src="js/emission-data.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/calc.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
