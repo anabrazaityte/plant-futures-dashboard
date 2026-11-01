@@ -48,6 +48,12 @@ python3 -m http.server 8000     # optional; a server avoids localStorage quirks 
 
 See `data/sample-data.md` for the full tables, conversions, and caveats.
 
+## Live site
+
+Published to GitHub Pages (auto-deploys on every push to `main`):
+
+**https://anabrazaityte.github.io/plant-futures-dashboard/**
+
 ## Methodology (transparent + editable)
 
 - **Options goal** — baseline plant-based menu share from the vendor list; target = baseline × 1.30 (+30%
