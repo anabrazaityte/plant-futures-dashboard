@@ -27,6 +27,7 @@ const DATA = (() => {
     emissions: {
       label: 'Reduce food-related emissions by 25% by 2030',
       short: '\u221225% food emissions',
+      baselineYear: 1990,      // client-confirmed baseline year (amount not yet measured)
       targetPct: 25            // reduce by 25% vs baseline-year emissions
     }
   };
@@ -80,7 +81,7 @@ const DATA = (() => {
           { id: 'contracts',     label: 'Vendor contracts reviewed (franchise approval paths confirmed)', metric: '# vendors', target: 35 },
           { id: 'leads',         label: 'Vendors with a named sustainability lead',                      metric: '# vendors', target: 35 },
           { id: 'targets',       label: 'Vendors with targets set',                                      metric: '# vendors', target: 35 },
-          { id: 'sops',          label: 'Reporting SOPs distributed & institution reporting lead named', metric: '# sets',     target: 1 }
+          { id: 'sops',          label: 'SOPs set distributed & institution reporting lead named', metric: 'set',       target: 1 }
         ]
       },
       {
@@ -122,7 +123,7 @@ const DATA = (() => {
       },
       {
         id: 'menu', name: 'Menu KPIs', emoji: '\u{1f372}',
-        desc: 'Baseline menu share is available per vendor; institution target = +30% vs baseline.',
+        desc: 'Baseline (vegan) menu share is available per vendor; institution target = +30% vs baseline.',
         kpis: [
           { id: 'menu-30',          label: 'Progress toward 2030 goal: +30% plant-based options institution-wide', metric: '% vs baseline' },
           { id: 'menu-share-vendor',label: 'Plant-based share of total menu items, per vendor',                    metric: '% menu' },

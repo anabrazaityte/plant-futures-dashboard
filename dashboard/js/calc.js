@@ -37,19 +37,22 @@ const Calc = (() => {
   }
 
   /* ---------------- institution menu-share stats ---------------- */
+  /* Plant-based = vegan only (vegan dishes are always vegetarian; vegetarian
+     is not plant-based). Baseline and current share are measured on vegan share. */
 
   function institutionStats(current) { // current = { vendorId: plantSharePercent }
-    let sum = 0, vegSum = 0, veganSum = 0, n = VENDORS.length;
+    let sum = 0, plantSum = 0, vegSum = 0, n = VENDORS.length;
     VENDORS.forEach(v => {
-      const cur = current && current[v.id] != null ? Number(current[v.id]) : v.vegShare;
+      const cur = current && current[v.id] != null ? Number(current[v.id]) : (v.veganShare != null ? v.veganShare : 0);
       sum += clamp(cur, 0, 100);
+      plantSum += v.veganShare != null ? v.veganShare : 0;
       vegSum += v.vegShare != null ? v.vegShare : 0;
-      veganSum += v.veganShare != null ? v.veganShare : 0;
     });
     return {
       currentShare: n ? sum / n : 0,
-      baselineShare: n ? vegSum / n : 0,
-      veganBaseline: n ? veganSum / n : 0
+      baselineShare: n ? plantSum / n : 0,     // plant-based baseline = vegan menu share
+      veganBaseline: n ? plantSum / n : 0,
+      vegBaseline: n ? vegSum / n : 0           // context only (not plant-based)
     };
   }
 

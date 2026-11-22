@@ -38,9 +38,9 @@ python3 -m http.server 8000     # optional; a server avoids localStorage quirks 
 
 ## Data
 
-- **Vendors** — 35 vendors from `Client_VendorsList_PlantFutures_FY27-Updated.xlsx` (kept private). Baseline plant-based (vegetarian) menu
-  share ≈ **25.2%**; vegan-only ≈ **9.1%**; 7 vendors on the coffee-shop track. Machine-readable in
-  `js/vendor-data.js`.
+- **Vendors** — 35 vendors from `Client_VendorsList_PlantFutures_FY27-Updated.xlsx` (kept private). Plant-based =
+  vegan only; baseline vegan menu share ≈ **9.1%** (target ≈ **11.8%**); 7 vendors on the coffee-shop track.
+  Machine-readable in `js/vendor-data.js`.
 - **Emission factors** — North America factors from `N_America_Emission_Factors.xlsx` (kept private). WRI
   Coolfood Pledge Calculator NA, underlying Poore & Nemecek (2018) regional averages. Headline metric:
   **supply-chain total** (kg CO₂e / kg food). Machine-readable in `js/emission-data.js`.

@@ -313,9 +313,22 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; backgroun
 .seg button.on { background: var(--forest-700); color: #fff; }
 .seg button:not(.on):hover { background: var(--sage-50); }
 
+/* ---------- Thermometer (fundraising-style progress) ---------- */
+.thermometer-card .thermo-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.thermo-head .thermo-label { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); font-weight: 650; }
+.thermo-head .thermo-values { font-size: 13px; color: var(--ink-soft); }
+.thermo-head .thermo-values strong { color: var(--accent); font-family: var(--sans); font-size: 15px; }
+
+.thermo { position: relative; height: 26px; background: var(--sage-50); border: 1px solid var(--line); border-radius: 999px; overflow: visible; }
+.thermo-fill { height: 100%; background: linear-gradient(90deg, var(--sage-300), var(--accent)); border-radius: 999px; transition: width .35s ease; min-width: 0; }
+.thermo-goal { position: absolute; top: -5px; bottom: -5px; width: 0; }
+.thermo-goal .thermo-notch { position: absolute; top: 50%; transform: translate(-50%, -50%); color: var(--accent-dark); font-size: 11px; }
+.thermo-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; }
+.thermo-scale .thermo-goal-label { color: var(--accent-dark); font-weight: 650; }
+
 /* ---------- Chart shells ---------- */
 .chart-box { position: relative; width: 100%; }
-.chart-box canvas { max-width: 100%; }
+.chart-box canvas { max-width: 100%; width: 100% !important; height: 100% !important; }
 .chart-lg { height: 320px; }
 .chart-md { height: 260px; }
 .chart-sm { height: 200px; }

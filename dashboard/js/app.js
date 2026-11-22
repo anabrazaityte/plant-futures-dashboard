@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Institutional Institutional Plant-Forward Menu Dashboard
+   Institutional Plant-Forward Menu Dashboard
    Main application: state, navigation, views, interactions, charts.
    Data-driven from the client's vendor spreadsheet and emission factors and
    the Implementation Roadmap.
@@ -13,7 +13,7 @@ const App = (() => {
   /* ---------------- state ---------------- */
   function defaultState() {
     const measured = {};
-    DATA.VENDORS.forEach(v => { measured[v.id] = (v.vegShare != null ? v.vegShare : 0); });
+    DATA.VENDORS.forEach(v => { measured[v.id] = (v.veganShare != null ? v.veganShare : 0); });
     const kpi = {};
     DATA.ROADMAP.phases.forEach(p => {
       kpi[p.id] = {};
@@ -180,15 +180,14 @@ const App = (() => {
         and the implementation roadmap. Baselines to be confirmed and measured in Phase&nbsp;1 of the roadmap.</p>
         <div class="chips">
           <span class="chip">${DATA.VENDORS.length} vendors</span>
-          <span class="chip">${fmtPct(st.baselineShare, 1)} baseline plant-based menu share</span>
-          <span class="chip">${fmtPct(st.veganBaseline, 1)} baseline vegan menu share</span>
+          <span class="chip">${fmtPct(st.baselineShare, 1)} baseline plant-based (vegan) menu share</span>
           <span class="chip">Target ${fmtPct(optsTarget, 1)} by ${DATA.GOALS.targetYear}</span>
           <span class="chip">${DATA.EMISSION_FACTORS.length} food emission factors (North America)</span>
         </div>
       </section>
 
       <div class="grid cols-4">
-        ${kpiBox('Baseline plant-based menu share', fmtPct(st.baselineShare, 1), 'Mean vegetarian share across vendors', { color: Charts.PALETTE.forest })}
+        ${kpiBox('Baseline plant-based menu share', fmtPct(st.baselineShare, 1), 'Mean vegan menu share across vendors', { color: Charts.PALETTE.forest })}
         ${kpiBox('Current recorded share', fmtPct(st.currentShare, 1), 'Editable per vendor in the Vendors view', { color: Charts.PALETTE.plant })}
         ${kpiBox('2030 options target', fmtPct(optsTarget, 1), '+30% plant-based options vs baseline', { color: Charts.PALETTE.forest })}
         ${kpiBox('Roadmap overall progress', fmtPct(roadmapOverall, 0), 'Avg across the three roadmap phases', {})}
@@ -198,11 +197,11 @@ const App = (() => {
         <div class="card">
           <h3>Progress toward ${DATA.GOALS.targetYear} goals</h3>
           <div class="card-sub">Baseline year ${DATA.GOALS.baselineYear} \u00b7 cadence: ${DATA.GOALS.cadence}</div>
-          ${goalBlock(DATA.GOALS.options.short, fmtPct(st.currentShare, 1) + ' men\u00fc share', fmtPct(optsTarget, 1), oPct, oCls)}
+          ${goalBlock(DATA.GOALS.options.short, fmtPct(st.currentShare, 1) + ' menu share', fmtPct(optsTarget, 1), oPct, oCls)}
           ${goalBlock(DATA.GOALS.emissions.short, hasEmiss ? fmtT(currEmiss) + ' CO\u2082e' : 'baseline TBD (Phase 1)', hasEmiss ? fmtT(ghgTarget) : '\u2014', ePct, eCls)}
           <div class="callout ok" style="margin:12px 0 0">
             <strong>Baseline plant-based menu share:</strong> ${fmtPct(st.baselineShare, 1)} (${DATA.VENDORS.length} vendors) \u00b7 target
-            +${DATA.GOALS.options.targetPct}% = ${fmtPct(optsTarget, 1)} \u00b7 the ${DATA.GOALS.targetYear} emissions baseline is measured in Phase 1.
+            +${DATA.GOALS.options.targetPct}% = ${fmtPct(optsTarget, 1)} \u00b7 the ${DATA.GOALS.emissions.baselineYear} emissions baseline is measured in Phase 1.
           </div>
         </div>
         <div class="card">
@@ -339,10 +338,23 @@ const App = (() => {
       <div class="section-head">
         <div>
           <h2>Vendors</h2>
-          <div class="sub">${DATA.VENDORS.length} vendors \u00b7 business names removed \u00b7 filter, sort &amp; record progress</div>
+          <div class="sub">${DATA.VENDORS.length} vendors \u00b7 plant-based = vegan \u00b7 every vegan dish is also vegetarian \u00b7 filter, sort &amp; record progress</div>
         </div>
         <div class="spacer"></div>
         <div class="meta">portfolio target: ${fmtPct(optsTarget, 1)} plant-based by ${DATA.GOALS.targetYear}</div>
+      </div>
+
+      <div class="card thermometer-card" id="vendor-thermo">
+        <div class="thermo-head">
+          <span class="thermo-label">Current progress</span>
+          <span class="thermo-values" id="thermo-values"></span>
+        </div>
+        <div class="thermo" id="thermo-track"></div>
+        <div class="thermo-scale">
+          <span>0%</span>
+          <span class="thermo-goal-label">goal ${fmtPct(optsTarget, 1)}</span>
+          <span>100%</span>
+        </div>
       </div>
 
       <div class="card vendor-controls">
@@ -357,8 +369,7 @@ const App = (() => {
           <div class="control-field">
             <label>Sort / rank</label>
             <select id="vf-sort">
-              <option value="veg">Plant-based share (high \u2192 low)</option>
-              <option value="vegan">Vegan share (high \u2192 low)</option>
+              <option value="veg">Plant-based (vegan) share \u2193</option>
               <option value="title">Service type (A\u2192Z)</option>
             </select>
           </div>
@@ -392,8 +403,7 @@ const App = (() => {
 
   function filteredVendors() {
     let vs = DATA.VENDORS.filter(v => vendorUI.group === 'all' || v.group === vendorUI.group);
-    if (vendorUI.sort === 'veg') vs = vs.slice().sort((a, b) => (b.vegShare || 0) - (a.vegShare || 0));
-    else if (vendorUI.sort === 'vegan') vs = vs.slice().sort((a, b) => (b.veganShare || 0) - (a.veganShare || 0));
+    if (vendorUI.sort === 'veg') vs = vs.slice().sort((a, b) => (b.veganShare || 0) - (a.veganShare || 0));
     else vs = vs.slice().sort((a, b) => a.group.localeCompare(b.group) || a.label.localeCompare(b.label));
     return vs;
   }
@@ -415,13 +425,30 @@ const App = (() => {
         state.measured[v.id] = val;
         persist();
         if (readout) readout.textContent = fmt(val, 0) + '%';
+        renderThermometer();
       });
     });
+    renderThermometer();
+  }
+
+  function renderThermometer() {
+    const track = document.getElementById('thermo-track');
+    if (!track) return;
+    const st = Calc.institutionStats(state.measured);
+    const target = Calc.optionsTargetShare(st.baselineShare);
+    const cur = st.currentShare;
+    // fill width shows current share (0..100); goal line sits at target position
+    const goalW = Math.min(100, Math.max(0, target));
+    const curW = Math.min(100, Math.max(0, cur));
+    track.innerHTML = `<div class="thermo-fill" style="width:${curW}%"></div>
+      <div class="thermo-goal" style="left:${goalW}%"><span class="thermo-notch">\u25a0</span></div>`;
+    const vals = document.getElementById('thermo-values');
+    if (vals) vals.innerHTML = `<strong>${fmtPct(cur, 1)}</strong> of goal · baseline ${fmtPct(st.baselineShare, 1)} &rarr; target ${fmtPct(target, 1)}`;
   }
 
   function vendorCardHTML(v) {
-    const cur = state.measured[v.id] != null ? state.measured[v.id] : v.vegShare;
-    const base = v.vegShare != null ? v.vegShare : 0;
+    const cur = state.measured[v.id] != null ? state.measured[v.id] : (v.veganShare != null ? v.veganShare : 0);
+    const base = v.veganShare != null ? v.veganShare : 0;
     const showOpts = vendorUI.options;
     return `
       <div class="vendor" id="vendor-${v.id}">
@@ -434,19 +461,18 @@ const App = (() => {
           <span class="pill gray">${esc(v.group)}</span>
         </div>
         <div class="v-stat">
-          <div class="st"><div class="l">Plant-based menu baseline</div><div class="v">${fmt(base, 0)}%</div></div>
-          <div class="st"><div class="l">Vegan menu baseline</div><div class="v">${v.veganShare != null ? fmt(v.veganShare, 0) + '%' : '\u2014'}</div></div>
+          <div class="st"><div class="l">Plant-based (vegan) baseline</div><div class="v">${fmt(base, 0)}%</div></div>
+          <div class="st"><div class="l">Vegan items listed</div><div class="v">${v.veganOptions ? '\u2713' : '\u2014'}</div></div>
         </div>
         <div class="control-row vendor-slider">
           <label style="flex:0 0 150px">Record current</label>
           <input type="range" id="vm-${v.id}" min="0" max="100" step="1" value="${cur}">
           <span class="ctl-val" id="vmr-${v.id}">${fmt(cur, 0)}%</span>
         </div>
-        ${showOpts === 'none' ? '' : `
-          <div class="grid cols-2 vendor-opts">
-            ${(showOpts === 'veg' || showOpts === 'both') ? `<div><strong>Vegetarian:</strong> ${esc(v.vegOptions || '\u2014')}</div>` : ''}
-            ${(showOpts === 'vegan' || showOpts === 'both') ? `<div><strong>Vegan:</strong> ${esc(v.veganOptions || '\u2014')}</div>` : ''}
-          </div>`}
+        ${showOpts === 'none' ? '' : `<div class="grid cols-2 vendor-opts">
+          ${(showOpts === 'veg' || showOpts === 'both') ? `<div><strong>Vegetarian:</strong> ${esc(v.vegOptions || '\u2014')}</div>` : ''}
+          ${(showOpts === 'vegan' || showOpts === 'both') ? `<div><strong>Vegan:</strong> ${esc(v.veganOptions || '\u2014')}</div>` : ''}
+        </div>`}
       </div>`;
   }
 
@@ -478,7 +504,7 @@ const App = (() => {
           &amp; food-waste baselines to be established in <strong>Phase 1</strong>.
         </p>
         <p style="line-height:1.55;font-size:13.5px;color:var(--ink-soft);margin:6px 0 0">
-          Set each KPI’s <strong>now</strong> and <strong>target</strong>; progress and phase completion update automatically.
+          Set each KPI’s <strong>now</strong> and <strong>target</strong>; progress and phase completion bars update automatically.
         </p>
       </div>
 
@@ -671,7 +697,7 @@ const App = (() => {
     box.innerHTML = `
       <div class="goal-block" style="padding-top:4px">
         <div class="goal-meta">
-          <div class="t">Emissions vs ${DATA.GOALS.baselineYear}</div>
+          <div class="t">Emissions vs ${DATA.GOALS.emissions.baselineYear}</div>
           <div class="v">${fmtT(cur || 0)} CO\u2082e now \u2192 ${fmtT(target)} CO\u2082e target · −${DATA.GOALS.emissions.targetPct}%</div>
         </div>
         <div class="goal-track"><div class="progress"><span class="${ePct >= 100 ? 'ok' : (ePct >= 40 ? 'warn' : '')}" style="width:${ePct}%"></span></div></div>
@@ -703,7 +729,7 @@ const App = (() => {
           <h3>Baseline &amp; target ${DATA.GOALS.targetYear} emissions</h3>
           <div class="card-sub">Enter the measured baseline-year and current annual emissions (kg CO\u2082e). The −${DATA.GOALS.emissions.targetPct}% target is computed automatically from the baseline.</div>
           <div class="control-row">
-            <label style="flex:0 0 150px">Baseline (${DATA.GOALS.baselineYear}) CO\u2082e</label>
+            <label style="flex:0 0 150px">Baseline (${DATA.GOALS.emissions.baselineYear}) CO\u2082e</label>
             <input type="number" id="em-baseline" min="0" step="any" placeholder="kg CO\u2082e / yr">
           </div>
           <div class="control-row">
@@ -752,7 +778,7 @@ const App = (() => {
         <div class="card">
           <h3>Methodology &amp; caveats</h3>
           <ol style="padding-left:18px;margin:0;line-height:1.7;font-size:13px;color:var(--ink-soft)">
-            <li><strong>Vendor baseline</strong> — mean vegetarian menu share across ${DATA.VENDORS.length} vendors, unweighted by volume (no sales data yet). Replace with weighted menu/volume audits when available.</li>
+            <li><strong>Vendor baseline</strong> — mean vegan menu share across ${DATA.VENDORS.length} vendors (plant-based = vegan only), unweighted by volume (no sales data yet). Replace with weighted menu/volume audits when available.</li>
             <li><strong>Emission factors</strong> — Coolfood Pledge Calculator (North America), headline column = supply-chain total (on-farm + off-farm). sLUC and carbon opportunity cost excluded per the source workbook.</li>
             <li><strong>2030 emissions baseline</strong> — to be established in Phase 1; this view accepts measured kg CO\u2082e for tracking.</li>
             <li><strong>Goal math</strong> — options goal: +${DATA.GOALS.options.targetPct}% relative to baseline menu share; emissions goal: −${DATA.GOALS.emissions.targetPct}% vs baseline-year.</li>
@@ -792,7 +818,8 @@ const App = (() => {
       type: 'bar',
       data: { labels: cRows.map(r => r.c), datasets: [{ data: cRows.map(r => +r.mean.toFixed(2)),
         backgroundColor: cRows.map(r => r.c === 'Milk' ? Charts.PALETTE.dairy : (r.c === 'Meat, seafood, dairy & eggs' ? Charts.PALETTE.animal : Charts.PALETTE.plant)), borderRadius: 6 }] },
-      options: { scales: { y: { title: { display: true, text: 'mean kg CO\u2082e/kg' }, grid: { color: Charts.PALETTE.grid } }, x: { grid: { display: false } } },
+      options: { indexAxis: 'y',
+        scales: { x: { title: { display: true, text: 'mean kg CO\u2082e/kg' }, grid: { color: Charts.PALETTE.grid } }, y: { grid: { display: false } } },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmt(c.raw, 2) + ' kg CO\u2082e/kg (n=' + cRows[c.dataIndex].n + ')' } } } }
     });
   };
