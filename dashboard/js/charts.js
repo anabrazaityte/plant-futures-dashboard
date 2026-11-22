@@ -35,7 +35,7 @@ const Charts = (() => {
   /* create or update a chart by canvas id */
   function build(id, config) {
     const el = document.getElementById(id);
-    if (!el || registry[id]) return;
+    if (!el) return;
     const base = {
       responsive: true,
       maintainAspectRatio: false,
@@ -47,22 +47,28 @@ const Charts = (() => {
     const merged = { ...config, options: { ...base.options, ...(config.options || {}) } };
     const ctx = el.getContext && el.getContext('2d');
     if (!ctx) return;
-    registry[id] = new Chart(ctx, merged);
+    registry[id] = { el, chart: new Chart(ctx, merged) };
   }
 
   function upsert(id, config) {
     const el = document.getElementById(id);
     if (!el) return null;
+    // if a chart exists but its canvas was re-rendered/replaced, rebuild on the new canvas
+    if (registry[id] && registry[id].el !== el) {
+      try { registry[id].chart.destroy(); } catch (e) { /* ignore */ }
+      delete registry[id];
+    }
     if (registry[id]) {
-      registry[id].data = config.data;
-      registry[id].options = config.options;
-      registry[id].update();
-      return registry[id];
+      registry[id].chart.data = config.data;
+      registry[id].chart.options = config.options;
+      registry[id].chart.update();
+      return registry[id].chart;
     }
     // defer until the canvas is laid out so charts don't render blank on load
     if (el.clientWidth === 0 || el.clientHeight === 0) {
       const tryBuild = () => {
         if (registry[id]) return;
+        if (document.getElementById(id) !== el) return; // view no longer active, drop
         if (el.clientWidth === 0) { requestAnimationFrame(tryBuild); return; }
         build(id, config);
       };
@@ -70,11 +76,11 @@ const Charts = (() => {
       return null;
     }
     build(id, config);
-    return registry[id] || null;
+    return registry[id] ? registry[id].chart : null;
   }
 
   function destroy(id) {
-    if (registry[id]) { registry[id].destroy(); delete registry[id]; }
+    if (registry[id]) { try { registry[id].chart.destroy(); } catch (e) { /* ignore */ } delete registry[id]; }
   }
 
   function fmt(n, d = 0) {

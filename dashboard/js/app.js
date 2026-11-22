@@ -417,17 +417,21 @@ const App = (() => {
     if (count) count.textContent = vs.length + ' of ' + DATA.VENDORS.length + ' vendors';
     list.innerHTML = `<div class="vendor-cards">${vs.map(v => vendorCardHTML(v)).join('')}</div>`;
 
-    // bind measured sliders
+    // bind measured sliders + numeric inputs
     vs.forEach(v => {
       const slider = document.getElementById('vm-' + v.id);
-      const readout = document.getElementById('vmr-' + v.id);
-      if (slider) slider.addEventListener('input', () => {
-        const val = Number(slider.value);
-        state.measured[v.id] = val;
+      const num = document.getElementById('vmn-' + v.id);
+      const sync = (val) => {
+        const vv = Math.min(100, Math.max(0, Math.round(val || 0)));
+        state.measured[v.id] = vv;
+        if (slider) slider.value = vv;
+        if (num) num.value = vv;
         persist();
-        if (readout) readout.textContent = fmt(val, 0) + '%';
         renderThermometer();
-      });
+      };
+      if (slider) slider.addEventListener('input', () => sync(slider.value));
+      if (num) num.addEventListener('input', () => sync(num.value));
+      if (num) num.addEventListener('change', () => sync(num.value));
     });
     renderThermometer();
   }
@@ -461,20 +465,20 @@ const App = (() => {
       <div class="vendor" id="vendor-${v.id}">
         <div class="v-head">
           <div class="v-emoji">${groupMeta(v.group).emoji}</div>
-          <div style="flex:1">
+          <div style="flex:1;min-width:0">
             <div class="v-name">${esc(v.label)}</div>
-            <div class="v-cat">${esc(v.cuisine)}${v.track === 'coffee' ? ' \u00b7 coffee shop' : ''}</div>
+            <div class="v-cat">${esc(v.cuisine)}${v.track === 'coffee' ? ' \u00b7 coffee shop' : ''} \u00b7 <span class="v-type">${esc(v.group)}</span></div>
           </div>
-          <span class="pill gray">${esc(v.group)}</span>
         </div>
         <div class="v-stat">
           <div class="st"><div class="l">Plant-based (vegan) baseline</div><div class="v">${fmt(base, 0)}%</div></div>
-          <div class="st"><div class="l">Cuisine track</div><div class="v">${v.track === 'coffee' ? 'Coffee shop' : 'Restaurant'}</div></div>
+          <div class="st"><div class="l">Track</div><div class="v">${v.track === 'coffee' ? 'Coffee shop' : 'Restaurant'}</div></div>
         </div>
-        <div class="control-row vendor-slider">
-          <label style="flex:0 0 150px">Record current</label>
+        <div class="vendor-slider">
+          <label class="vs-label">Record current</label>
           <input type="range" id="vm-${v.id}" min="0" max="100" step="1" value="${cur}">
-          <span class="ctl-val" id="vmr-${v.id}">${fmt(cur, 0)}%</span>
+          <input type="number" class="vs-num" id="vmn-${v.id}" min="0" max="100" step="1" value="${cur}">
+          <span class="vs-pct">%</span>
         </div>
         ${showOpts === 'none' ? '' : `<div class="grid cols-2 vendor-opts">
           ${(showOpts === 'veg' || showOpts === 'both') ? `<div><strong>Vegetarian:</strong> ${esc(v.vegOptions || '\u2014')}</div>` : ''}
