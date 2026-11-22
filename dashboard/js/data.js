@@ -78,10 +78,11 @@ const DATA = (() => {
         pillars: 'All vendors',
         desc: 'Communicate expectations, review contracts, appoint sustainability leads, and establish baselines needed to measure progress.',
         kpis: [
-          { id: 'contracts',     label: 'Vendor contracts reviewed (franchise approval paths confirmed)', metric: '# vendors', target: 35 },
-          { id: 'leads',         label: 'Vendors with a named sustainability lead',                      metric: '# vendors', target: 35 },
-          { id: 'targets',       label: 'Vendors with targets set',                                      metric: '# vendors', target: 35 },
-          { id: 'sops',          label: 'SOPs set distributed & institution reporting lead named', metric: 'set',       target: 1 }
+          { id: 'contracts',    label: 'Vendor contracts reviewed (franchise approval paths confirmed)', metric: '# vendors', target: 35 },
+          { id: 'leads',        label: 'Vendors with a named sustainability lead',                       metric: '# vendors', target: 35 },
+          { id: 'targets',      label: 'Vendors with targets set',                                       metric: '# vendors', target: 35 },
+          { id: 'toolkits',     label: 'Vendor toolkits / SOPs distributed to each vendor',              metric: '# vendors', target: 35 },
+          { id: 'report-lead',  label: 'Institution reporting lead named',                               metric: 'checkbox',  target: 1 }
         ]
       },
       {

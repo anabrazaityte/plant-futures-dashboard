@@ -8,7 +8,7 @@
 
 const App = (() => {
 
-  const STORAGE_KEY = 'plantfutures-dashboard-v3';
+  const STORAGE_KEY = 'plantfutures-dashboard-v4';
 
   /* ---------------- state ---------------- */
   function defaultState() {
@@ -187,8 +187,8 @@ const App = (() => {
       </section>
 
       <div class="grid cols-4">
-        ${kpiBox('Baseline plant-based menu share', fmtPct(st.baselineShare, 1), 'Mean vegan menu share across vendors', { color: Charts.PALETTE.forest })}
-        ${kpiBox('Current recorded share', fmtPct(st.currentShare, 1), 'Editable per vendor in the Vendors view', { color: Charts.PALETTE.plant })}
+        ${kpiBox('Baseline plant-based menu share', fmtPct(st.baselineShare, 1), 'Mean vegan menu share from the vendor sheet (fixed)', { color: Charts.PALETTE.forest })}
+        ${kpiBox('Current recorded share', fmtPct(st.currentShare, 1), 'Mean of per-vendor "record current" sliders (starts at baseline)', { color: Charts.PALETTE.plant })}
         ${kpiBox('2030 options target', fmtPct(optsTarget, 1), '+30% plant-based options vs baseline', { color: Charts.PALETTE.forest })}
         ${kpiBox('Roadmap overall progress', fmtPct(roadmapOverall, 0), 'Avg across the three roadmap phases', {})}
       </div>
@@ -352,7 +352,8 @@ const App = (() => {
         <div class="thermo" id="thermo-track"></div>
         <div class="thermo-scale">
           <span>0%</span>
-          <span class="thermo-goal-label">goal ${fmtPct(optsTarget, 1)}</span>
+          <span id="thermo-now-label" class="thermo-now-label"></span>
+          <span id="thermo-goal-label" class="thermo-goal-label"></span>
           <span>100%</span>
         </div>
       </div>
@@ -437,13 +438,19 @@ const App = (() => {
     const st = Calc.institutionStats(state.measured);
     const target = Calc.optionsTargetShare(st.baselineShare);
     const cur = st.currentShare;
-    // fill width shows current share (0..100); goal line sits at target position
+    // bar spans a 0..100 scale; fill = current, dashed line = goal
     const goalW = Math.min(100, Math.max(0, target));
     const curW = Math.min(100, Math.max(0, cur));
-    track.innerHTML = `<div class="thermo-fill" style="width:${curW}%"></div>
-      <div class="thermo-goal" style="left:${goalW}%"><span class="thermo-notch">\u25a0</span></div>`;
+    track.innerHTML = `<div class="thermo-rail"></div>
+      <div class="thermo-fill" style="width:${curW}%"></div>
+      <div class="thermo-goal" style="left:${goalW}%"></div>`;
     const vals = document.getElementById('thermo-values');
-    if (vals) vals.innerHTML = `<strong>${fmtPct(cur, 1)}</strong> of goal · baseline ${fmtPct(st.baselineShare, 1)} &rarr; target ${fmtPct(target, 1)}`;
+    if (vals) vals.innerHTML = `<strong>${fmtPct(cur, 1)}</strong> now · baseline ${fmtPct(st.baselineShare, 1)} &rarr; target ${fmtPct(target, 1)}`;
+    const nowLabel = document.getElementById('thermo-now-label');
+    if (nowLabel) nowLabel.style.left = curW + '%';
+    // goal label pinned at goal position (clamp so it stays on bar)
+    const gl = document.getElementById('thermo-goal-label');
+    if (gl) { gl.textContent = 'goal ' + fmtPct(target, 1); gl.style.left = Math.min(100, Math.max(6, goalW)) + '%'; }
   }
 
   function vendorCardHTML(v) {
@@ -462,7 +469,7 @@ const App = (() => {
         </div>
         <div class="v-stat">
           <div class="st"><div class="l">Plant-based (vegan) baseline</div><div class="v">${fmt(base, 0)}%</div></div>
-          <div class="st"><div class="l">Vegan items listed</div><div class="v">${v.veganOptions ? '\u2713' : '\u2014'}</div></div>
+          <div class="st"><div class="l">Cuisine track</div><div class="v">${v.track === 'coffee' ? 'Coffee shop' : 'Restaurant'}</div></div>
         </div>
         <div class="control-row vendor-slider">
           <label style="flex:0 0 150px">Record current</label>
@@ -747,7 +754,7 @@ const App = (() => {
         <div class="card">
           <h3>Food categories — supply-chain total</h3>
           <div class="card-sub">Mean kg CO\u2082e / kg by category group</div>
-          <div class="chart-box chart-md"><canvas id="em-cats"></canvas></div>
+          <div class="chart-box chart-lg"><canvas id="em-cats"></canvas></div>
         </div>
       </div>
 
@@ -817,9 +824,19 @@ const App = (() => {
     Charts.upsert('em-cats', {
       type: 'bar',
       data: { labels: cRows.map(r => r.c), datasets: [{ data: cRows.map(r => +r.mean.toFixed(2)),
-        backgroundColor: cRows.map(r => r.c === 'Milk' ? Charts.PALETTE.dairy : (r.c === 'Meat, seafood, dairy & eggs' ? Charts.PALETTE.animal : Charts.PALETTE.plant)), borderRadius: 6 }] },
+        backgroundColor: cRows.map(r => r.c === 'Milk' ? Charts.PALETTE.dairy : (r.c === 'Meat, seafood, dairy & eggs' ? Charts.PALETTE.animal : Charts.PALETTE.plant)),
+        borderRadius: 6, categoryPercentage: 0.55, barPercentage: 0.85 }] },
       options: { indexAxis: 'y',
-        scales: { x: { title: { display: true, text: 'mean kg CO\u2082e/kg' }, grid: { color: Charts.PALETTE.grid } }, y: { grid: { display: false } } },
+        scales: {
+          x: { title: { display: true, text: 'mean kg CO\u2082e/kg' }, grid: { color: Charts.PALETTE.grid } },
+          y: { grid: { display: false }, ticks: { autoSkip: false, font: { size: 11 }, maxRotation: 0, minRotation: 0, callback(value) {
+              const label = cRows[value] ? cRows[value].c : String(value);
+              const words = label.split(' ');
+              if (words.length <= 4) return label;
+              const mid = Math.ceil(words.length / 2);
+              return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+            } } }
+        },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmt(c.raw, 2) + ' kg CO\u2082e/kg (n=' + cRows[c.dataIndex].n + ')' } } } }
     });
   };

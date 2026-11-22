@@ -33,15 +33,9 @@ const Charts = (() => {
   const registry = {};
 
   /* create or update a chart by canvas id */
-  function upsert(id, config) {
+  function build(id, config) {
     const el = document.getElementById(id);
-    if (!el) return null;
-    if (registry[id]) {
-      registry[id].data = config.data;
-      registry[id].options = config.options;
-      registry[id].update();
-      return registry[id];
-    }
+    if (!el || registry[id]) return;
     const base = {
       responsive: true,
       maintainAspectRatio: false,
@@ -51,9 +45,32 @@ const Charts = (() => {
       }
     };
     const merged = { ...config, options: { ...base.options, ...(config.options || {}) } };
-    const chart = new Chart(el.getContext('2d'), merged);
-    registry[id] = chart;
-    return chart;
+    const ctx = el.getContext && el.getContext('2d');
+    if (!ctx) return;
+    registry[id] = new Chart(ctx, merged);
+  }
+
+  function upsert(id, config) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    if (registry[id]) {
+      registry[id].data = config.data;
+      registry[id].options = config.options;
+      registry[id].update();
+      return registry[id];
+    }
+    // defer until the canvas is laid out so charts don't render blank on load
+    if (el.clientWidth === 0 || el.clientHeight === 0) {
+      const tryBuild = () => {
+        if (registry[id]) return;
+        if (el.clientWidth === 0) { requestAnimationFrame(tryBuild); return; }
+        build(id, config);
+      };
+      requestAnimationFrame(tryBuild);
+      return null;
+    }
+    build(id, config);
+    return registry[id] || null;
   }
 
   function destroy(id) {

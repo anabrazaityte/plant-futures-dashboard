@@ -319,12 +319,16 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; backgroun
 .thermo-head .thermo-values { font-size: 13px; color: var(--ink-soft); }
 .thermo-head .thermo-values strong { color: var(--accent); font-family: var(--sans); font-size: 15px; }
 
-.thermo { position: relative; height: 26px; background: var(--sage-50); border: 1px solid var(--line); border-radius: 999px; overflow: visible; }
-.thermo-fill { height: 100%; background: linear-gradient(90deg, var(--sage-300), var(--accent)); border-radius: 999px; transition: width .35s ease; min-width: 0; }
-.thermo-goal { position: absolute; top: -5px; bottom: -5px; width: 0; }
-.thermo-goal .thermo-notch { position: absolute; top: 50%; transform: translate(-50%, -50%); color: var(--accent-dark); font-size: 11px; }
-.thermo-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; }
-.thermo-scale .thermo-goal-label { color: var(--accent-dark); font-weight: 650; }
+.thermo { position: relative; height: 22px; background: var(--sage-50); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.thermo-rail { position: absolute; inset: 0; border-radius: 999px; }
+.thermo-fill { position: relative; height: 100%; background: var(--accent); transition: width .35s ease; min-width: 0; }
+.thermo-goal { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent-dark); opacity: .65; }
+.thermo-scale { position: relative; height: 18px; font-size: 11px; margin-top: 5px; }
+.thermo-scale > span:first-child, .thermo-scale > span:last-child { color: var(--muted); position: absolute; }
+.thermo-scale > span:first-child { left: 0; top: 0; }
+.thermo-scale > span:last-child { right: 0; top: 0; transform: translateX(50%); }
+.thermo-now-label { position: absolute; top: 0; transform: translateX(-2px); color: var(--accent); font-weight: 650; white-space: nowrap; }
+.thermo-goal-label { position: absolute; top: 0; transform: translateX(-50%); color: var(--accent-dark); font-weight: 650; white-space: nowrap; }
 
 /* ---------- Chart shells ---------- */
 .chart-box { position: relative; width: 100%; }
