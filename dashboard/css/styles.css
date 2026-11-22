@@ -4,46 +4,40 @@
    ========================================================================== */
 
 :root {
-  /* palette — Acterra brand (primary + neutrals) on a modern minimal layout */
-  --brand-green:  #8DA335;   /* Acterra primary green */
-  --brand-orange: #F37321;   /* Acterra primary orange */
-  --brand-blue:   #006E94;   /* Acterra secondary blue */
-  --brand-purple: #693276;   /* Acterra secondary purple */
-  --brand-olive:  #574319;   /* Acterra secondary deep olive */
+  /* palette — restrained Acterra accents on a modern minimal base:
+     brand green (primary) + brand orange (secondary accent), neutrals + greys */
+  --brand-green:  #8DA335;   /* Acterra primary green — main accent */
+  --brand-orange: #F37321;   /* Acterra primary orange — sparing accent */
 
-  --forest-950: #1F1717;     /* Acterra neutral near-black */
-  --forest-900: #34300f;
-  --forest-800: #3f4718;
-  --forest-700: #61741f;
-  --forest-600: #6f8423;
+  --forest-950: #1F1717;     /* acterra neutral near-black ink */
+  --forest-900: #33341f;
+  --forest-800: #525733;
+  --forest-700: #6c7d21;
+  --forest-600: #7d9123;
   --forest-500: #8DA335;
-  --sage-400: #9db059;
-  --sage-300: #b6c47f;
-  --sage-200: #d6dfb3;
+  --sage-400: #a3b45e;
+  --sage-300: #c3d08f;
+  --sage-200: #e0e6c0;
   --sage-100: #eef2dc;
-  --sage-50:  #f5f7ea;
+  --sage-50:  #f6f8ed;
 
-  --bg:       #FEFFF8;      /* Acterra near-white */
+  --bg:       #FEFFF8;      /* acterra near-white page */
   --paper:    #ffffff;
   --card:     #ffffff;
   --ink:      #1F1717;
-  --ink-soft: #4a453a;
-  --muted:    #6e6a5e;
-  --line:     #e7e5d8;
-  --line-soft:#f2f1ea;
+  --ink-soft: #45433c;
+  --muted:    #6f6c60;
+  --line:     #e7e6dd;
+  --line-soft:#f2f1ec;
 
-  --terracotta: #F37321;    /* Acterra orange */
-  --terracotta-soft: #fde9d8;
-  --amber:       #bfa023;
-  --amber-soft:  #f6efd0;
-  --red:         #c05b38;
-  --red-soft:    #f7e4da;
-  --green:       #61741f;
+  --terracotta: #F37321;    /* brand orange accent (now dots, emphasis) */
+  --terracotta-soft: #fdeadd;
+  --amber:       #c6a72c;
+  --amber-soft:  #f7f1d8;
+  --red:         #c05f3c;
+  --red-soft:    #f8e7de;
+  --green:       #7d9123;
   --green-soft:  #eef2dc;
-  --blue:        #006E94;
-  --blue-soft:   #e2eff4;
-  --purple:      #693276;
-  --purple-soft: #f0e6f1;
 
   /* type — Acterra brand fonts (fallbacks for offline/no-build use) */
   --display: "League Gothic", "Arial Narrow", Impact, sans-serif;
@@ -92,8 +86,8 @@ h1, h2, h3, h4, h5 {
   position: sticky;
   top: 0;
   height: 100vh;
-  background: #14302e;
-  color: #d4e6dc;
+  background: var(--forest-950);
+  color: #e2e2d8;
   padding: 24px 16px 16px;
   display: flex;
   flex-direction: column;
@@ -160,10 +154,10 @@ h1, h2, h3, h4, h5 {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(135deg, #1f2a46 0%, #2f3f63 55%, #4a3a10 100%);
+  background: linear-gradient(135deg, #2c2c1d 0%, #43480f 62%, var(--brand-green) 100%);
   border-radius: var(--radius-lg);
   padding: 30px 32px;
-  color: #f3f6ee;
+  color: #f4f6ec;
   position: relative; overflow: hidden;
   box-shadow: var(--shadow-md);
   margin-bottom: 24px;
@@ -172,11 +166,11 @@ h1, h2, h3, h4, h5 {
   content: "";
   position: absolute; right: -60px; top: -80px; width: 340px; height: 340px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(141,163,53,.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(141,163,53,.4) 0%, transparent 70%);
 }
-.hero .eyebrow { font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sage-300); margin-bottom: 9px; }
+.hero .eyebrow { font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sage-200); margin-bottom: 9px; }
 .hero h1 { color: #fff; font-size: clamp(24px, 3.2vw, 33px); max-width: 720px; }
-.hero p { color: #e4ebd2; max-width: 640px; margin: 10px 0 0; font-size: 15px; }
+.hero p { color: #e8ecd4; max-width: 640px; margin: 10px 0 0; font-size: 15px; }
 .hero .chips { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; position: relative; z-index: 1; }
 .chip { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); color: #fff; border-radius: 999px; padding: 5px 13px; font-size: 12.5px; }
 
@@ -269,7 +263,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; backgroun
 .pill.red { background: var(--red-soft); color: var(--red); }
 .pill.forest { background: var(--sage-100); color: var(--forest-700); }
 .pill.gray { background: #eeefe9; color: var(--muted); }
-.pill.blue { background: var(--blue-soft); color: var(--blue); }
+.pill.blue { background: var(--sage-100); color: var(--forest-700); }
 
 /* ---------- Vendor controls & cards ---------- */
 .vendor-controls { padding: 16px 20px; }
@@ -330,8 +324,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; backgroun
 
 /* ---------- Callouts ---------- */
 .callout { border-radius: var(--radius-md); padding: 14px 16px; font-size: 13.5px; line-height: 1.5; border: 1px solid; margin: 14px 0; }
-.callout.info { background: var(--blue-soft); border-color: #cddfe8; color: #2d5b74; }
-.callout.info strong { color: var(--blue); }
+.callout.info { background: var(--sage-50); border-color: var(--sage-200); color: var(--forest-800); }
+.callout.info strong { color: var(--forest-800); }
 .callout.warn { background: var(--amber-soft); border-color: #ecd7ad; color: #7a5a18; }
 .callout.warn strong { color: #8a6212; }
 .callout.ok { background: var(--green-soft); border-color: #c4dfc9; color: #2c6344; }

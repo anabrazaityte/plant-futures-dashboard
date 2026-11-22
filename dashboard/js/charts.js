@@ -7,16 +7,14 @@ const Charts = (() => {
 
   const PALETTE = {
     plant: '#8DA335',
-    plantLight: '#b6c47f',
+    plantLight: '#c3d08f',
     animal: '#F37321',
-    dairy: '#bfa023',
+    dairy: '#c6a72c',
     ink: '#1F1717',
-    muted: '#6e6a5e',
-    grid: 'rgba(110,106,94,0.16)',
-    forest: '#4a5a17',
-    sage: '#9db059',
-    blue: '#006E94',
-    purple: '#693276',
+    muted: '#6f6c60',
+    grid: 'rgba(111,108,96,0.16)',
+    forest: '#525733',
+    sage: '#a3b45e',
     cream: '#FEFFF8'
   };
 

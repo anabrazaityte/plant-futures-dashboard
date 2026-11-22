@@ -42,13 +42,13 @@ const DATA = (() => {
 
   /* group metadata for display (keyed by vendor.group) */
   const GROUP_META = {
-    'Cafe / coffee shops':             { emoji: '\u2615', color: '#574319' },
+    'Cafe / coffee shops':             { emoji: '\u2615', color: '#8DA335' },
+    'Juice bars':                      { emoji: '\u{1f966}', color: '#a3b45e' },
+    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#525733' },
+    'Full-service dining':             { emoji: '\u{1f372}', color: '#c3d08f' },
     'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#F37321' },
-    'Full-service dining':             { emoji: '\u{1f372}', color: '#693276' },
-    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#96799B' },
-    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#006E94' },
-    'Juice bars':                      { emoji: '\u{1f966}', color: '#8DA335' },
-    'Other':                           { emoji: '\u{1f960}', color: '#937365' }
+    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#c6a72c' },
+    'Other':                           { emoji: '\u{1f960}', color: '#6f6c60' }
   };
 
   /* ------------------------------------------------------------------ */
