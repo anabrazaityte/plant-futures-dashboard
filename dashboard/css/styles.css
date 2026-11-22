@@ -4,41 +4,50 @@
    ========================================================================== */
 
 :root {
-  /* palette — modern green / neutral */
-  --forest-950: #0e241c;
-  --forest-900: #16382a;
-  --forest-800: #1d4c36;
-  --forest-700: #27603f;
-  --forest-600: #2f7d52;
-  --forest-500: #3e8f62;
-  --sage-400: #6f9d83;
-  --sage-300: #9cc3a9;
-  --sage-200: #c8ddd0;
-  --sage-100: #e8f0ea;
-  --sage-50:  #f2f6f3;
+  /* palette — Acterra brand (primary + neutrals) on a modern minimal layout */
+  --brand-green:  #8DA335;   /* Acterra primary green */
+  --brand-orange: #F37321;   /* Acterra primary orange */
+  --brand-blue:   #006E94;   /* Acterra secondary blue */
+  --brand-purple: #693276;   /* Acterra secondary purple */
+  --brand-olive:  #574319;   /* Acterra secondary deep olive */
 
-  --bg:       #f6f7f4;
+  --forest-950: #1F1717;     /* Acterra neutral near-black */
+  --forest-900: #34300f;
+  --forest-800: #3f4718;
+  --forest-700: #61741f;
+  --forest-600: #6f8423;
+  --forest-500: #8DA335;
+  --sage-400: #9db059;
+  --sage-300: #b6c47f;
+  --sage-200: #d6dfb3;
+  --sage-100: #eef2dc;
+  --sage-50:  #f5f7ea;
+
+  --bg:       #FEFFF8;      /* Acterra near-white */
   --paper:    #ffffff;
   --card:     #ffffff;
-  --ink:      #1c2620;
-  --ink-soft: #44534a;
-  --muted:    #6b7a71;
-  --line:     #e4e6e1;
-  --line-soft:#efefea;
+  --ink:      #1F1717;
+  --ink-soft: #4a453a;
+  --muted:    #6e6a5e;
+  --line:     #e7e5d8;
+  --line-soft:#f2f1ea;
 
-  --terracotta: #b4633f;
-  --terracotta-soft: #f6e6dd;
-  --amber:       #c9962e;
-  --amber-soft:  #f7ecd6;
-  --red:         #b0493a;
-  --red-soft:    #f6e2dc;
-  --green:       #2f7d52;
-  --green-soft:  #e6f1e9;
-  --blue:        #3f6f86;
-  --blue-soft:   #e4edf1;
+  --terracotta: #F37321;    /* Acterra orange */
+  --terracotta-soft: #fde9d8;
+  --amber:       #bfa023;
+  --amber-soft:  #f6efd0;
+  --red:         #c05b38;
+  --red-soft:    #f7e4da;
+  --green:       #61741f;
+  --green-soft:  #eef2dc;
+  --blue:        #006E94;
+  --blue-soft:   #e2eff4;
+  --purple:      #693276;
+  --purple-soft: #f0e6f1;
 
-  /* type — clean sans stack, no heavy serif headers */
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* type — Acterra brand fonts (fallbacks for offline/no-build use) */
+  --display: "League Gothic", "Arial Narrow", Impact, sans-serif;
+  --sans: "Josefin Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 
   /* metrics */
@@ -72,7 +81,7 @@ h1, h2, h3, h4, h5 {
   color: var(--forest-950);
   line-height: 1.2;
   margin: 0;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -83,8 +92,8 @@ h1, h2, h3, h4, h5 {
   position: sticky;
   top: 0;
   height: 100vh;
-  background: var(--forest-950);
-  color: #d8e6dd;
+  background: #14302e;
+  color: #d4e6dc;
   padding: 24px 16px 16px;
   display: flex;
   flex-direction: column;
@@ -95,7 +104,7 @@ h1, h2, h3, h4, h5 {
 .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 20px; }
 .brand-mark {
   width: 40px; height: 40px; border-radius: 11px; flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--sage-300), var(--forest-500));
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
   display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
 }
 .brand-name { font-family: var(--sans); color: #fff; font-size: 16px; font-weight: 650; letter-spacing: -.01em; line-height: 1.15; }
@@ -151,10 +160,10 @@ h1, h2, h3, h4, h5 {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-700) 68%, var(--forest-500) 100%);
+  background: linear-gradient(135deg, #1f2a46 0%, #2f3f63 55%, #4a3a10 100%);
   border-radius: var(--radius-lg);
   padding: 30px 32px;
-  color: #eaf3ec;
+  color: #f3f6ee;
   position: relative; overflow: hidden;
   box-shadow: var(--shadow-md);
   margin-bottom: 24px;
@@ -163,11 +172,11 @@ h1, h2, h3, h4, h5 {
   content: "";
   position: absolute; right: -60px; top: -80px; width: 340px; height: 340px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(156,195,169,.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(141,163,53,.35) 0%, transparent 70%);
 }
 .hero .eyebrow { font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sage-300); margin-bottom: 9px; }
 .hero h1 { color: #fff; font-size: clamp(24px, 3.2vw, 33px); max-width: 720px; }
-.hero p { color: #d9e7dd; max-width: 640px; margin: 10px 0 0; font-size: 15px; }
+.hero p { color: #e4ebd2; max-width: 640px; margin: 10px 0 0; font-size: 15px; }
 .hero .chips { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; position: relative; z-index: 1; }
 .chip { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); color: #fff; border-radius: 999px; padding: 5px 13px; font-size: 12.5px; }
 

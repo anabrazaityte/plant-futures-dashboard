@@ -664,17 +664,34 @@ const App = (() => {
     if (overallMeta) overallMeta.textContent = 'overall: ' + fmt(overall, 0) + '%';
   }
 
+  function updateEmissionsReadout() {
+    const box = document.getElementById('em-readout');
+    if (!box) return;
+    const base = state.baselineEmissions !== '' && Number(state.baselineEmissions) > 0 ? Number(state.baselineEmissions) : null;
+    const cur = state.currentEmissions !== '' ? Number(state.currentEmissions) : null;
+    if (base === null) {
+      box.innerHTML = `<div class="callout warn" style="margin:0"><strong>Emissions baseline not yet established.</strong> Per the roadmap the institution\u2019s food-emissions baseline is measured in Phase 1. Enter it above to see the −${DATA.GOALS.emissions.targetPct}% target and current progress.</div>`;
+      return;
+    }
+    const target = Calc.emissionsTarget(base);
+    const ePct = Calc.emissionsProgress(cur || 0, base);
+    box.innerHTML = `
+      <div class="goal-block" style="padding-top:4px">
+        <div class="goal-meta">
+          <div class="t">Emissions vs ${DATA.GOALS.baselineYear}</div>
+          <div class="v">${fmtT(cur || 0)} CO\u2082e now \u2192 ${fmtT(target)} CO\u2082e target · −${DATA.GOALS.emissions.targetPct}%</div>
+        </div>
+        <div class="goal-track"><div class="progress"><span class="${ePct >= 100 ? 'ok' : (ePct >= 40 ? 'warn' : '')}" style="width:${ePct}%"></span></div></div>
+        <div class="goal-pct">${fmt(ePct, 1)}%</div>
+      </div>
+      <div class="card-foot">Reduction so far: ${fmtT(base - (cur || 0))} CO\u2082e (${fmt((base - (cur || 0)) / base * 100, 1)}%) \u00b7 to hit the ${DATA.GOALS.targetYear} goal you need ${fmtT(base - target)} CO\u2082e total.</div>`;
+  }
+
   /* ================================================================
      EMISSIONS & DATA (merged)
      ================================================================ */
   renderers.emissions = function renderEmissions() {
     const el = document.getElementById('view-emissions');
-    const base = state.baselineEmissions !== '' ? Number(state.baselineEmissions) : null;
-    const cur = state.currentEmissions !== '' ? Number(state.currentEmissions) : null;
-    const has = base != null && base > 0;
-    const target = has ? Calc.emissionsTarget(base) : null;
-    const ePct = has ? Calc.emissionsProgress(cur || 0, base) : 0;
-
     const cats = {};
     DATA.EMISSION_FACTORS.forEach(f => { (cats[f.category] = cats[f.category] || []).push(f); });
     const milks = DATA.MILKS.slice().sort((a, b) => a.total - b.total);
@@ -691,21 +708,16 @@ const App = (() => {
       <div class="grid cols-3">
         <div class="card">
           <h3>Baseline &amp; target ${DATA.GOALS.targetYear} emissions</h3>
-          <div class="card-sub">Enter measured baseline and current annual emissions (kg CO\u2082e) to track the −${DATA.GOALS.emissions.targetPct}% goal</div>
+          <div class="card-sub">Enter the measured baseline-year and current annual emissions (kg CO\u2082e). The −${DATA.GOALS.emissions.targetPct}% target is computed automatically from the baseline.</div>
           <div class="control-row">
-            <label style="flex:0 0 150px">Baseline year (${DATA.GOALS.baselineYear}) CO\u2082e</label>
+            <label style="flex:0 0 150px">Baseline (${DATA.GOALS.baselineYear}) CO\u2082e</label>
             <input type="number" id="em-baseline" min="0" step="any" placeholder="kg CO\u2082e / yr">
-            <span class="ctl-val"></span>
           </div>
           <div class="control-row">
             <label style="flex:0 0 150px">Current CO\u2082e</label>
             <input type="number" id="em-current" min="0" step="any" placeholder="kg CO\u2082e / yr">
-            <span class="ctl-val"></span>
           </div>
-          <div style="margin-top:10px">
-            ${has ? goalBlock('Emissions vs ' + DATA.GOALS.baselineYear, fmtT(cur || 0) + ' CO\u2082e', fmtT(target) + ' CO\u2082e', ePct, ePct >= 100 ? 'ok' : (ePct >= 40 ? 'warn' : ''))
-              : `<div class="callout warn" style="margin-top:0"><strong>Emissions baseline not yet established.</strong> Per the roadmap, the institution\u2019s food-emissions baseline is measured in Phase 1. Until then, use the factors below as the reference data set.</div>`}
-          </div>
+          <div id="em-readout" style="margin-top:12px"></div>
         </div>
         <div class="card">
           <h3>Plant-based milk — per-liter CO\u2082e</h3>
@@ -770,8 +782,9 @@ const App = (() => {
     const cInp = document.getElementById('em-current');
     if (bInp) bInp.value = state.baselineEmissions;
     if (cInp) cInp.value = state.currentEmissions;
-    if (bInp) bInp.addEventListener('input', () => { state.baselineEmissions = bInp.value; persist(); });
-    if (cInp) cInp.addEventListener('input', () => { state.currentEmissions = cInp.value; persist(); });
+    if (bInp) bInp.addEventListener('input', () => { state.baselineEmissions = bInp.value; persist(); updateEmissionsReadout(); });
+    if (cInp) cInp.addEventListener('input', () => { state.currentEmissions = cInp.value; persist(); updateEmissionsReadout(); });
+    updateEmissionsReadout();
 
     Charts.upsert('em-milks', {
       type: 'bar',
