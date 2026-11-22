@@ -731,33 +731,31 @@ const App = (() => {
         </div>
       </div>
 
-      <div class="card">
-        <h3>Baseline &amp; target ${DATA.GOALS.targetYear} emissions</h3>
-        <div class="card-sub">Enter the measured baseline-year and current annual emissions (kg CO\u2082e). The −${DATA.GOALS.emissions.targetPct}% target is computed automatically from the baseline.</div>
-        <div class="grid cols-2" style="max-width:640px">
-          <div class="control-field">
-            <label>Baseline (${DATA.GOALS.emissions.baselineYear}) CO\u2082e</label>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Baseline &amp; target ${DATA.GOALS.targetYear} emissions</h3>
+          <div class="card-sub">Enter the measured baseline-year and current annual emissions (kg CO\u2082e). The −${DATA.GOALS.emissions.targetPct}% target is computed automatically from the baseline.</div>
+          <div class="control-row">
+            <label style="flex:0 0 150px">Baseline (${DATA.GOALS.emissions.baselineYear}) CO\u2082e</label>
             <input type="number" id="em-baseline" min="0" step="any" placeholder="kg CO\u2082e / yr">
           </div>
-          <div class="control-field">
-            <label>Current CO\u2082e</label>
+          <div class="control-row">
+            <label style="flex:0 0 150px">Current CO\u2082e</label>
             <input type="number" id="em-current" min="0" step="any" placeholder="kg CO\u2082e / yr">
           </div>
+          <div id="em-readout" style="margin-top:12px"></div>
         </div>
-        <div id="em-readout" style="margin-top:12px;max-width:640px"></div>
-      </div>
-
-      <div class="card mt2">
-        <h3>Plant-based milk — per-liter CO\u2082e</h3>
-        <div class="card-sub">Coffee-shop pillar (kg CO\u2082e per kg \u2248 liter of milk)</div>
-        <div class="chart-box chart-md"><canvas id="em-milks"></canvas></div>
-        <div class="card-foot">Switching from dairy to the lowest-GHG plant milk cuts ~${milks[0] ? fmt((milks.find(m => m.food === 'Dairy milk') ? milks.find(m => m.food === 'Dairy milk').total : 2.17) - milks[0].total, 2) : '—'} kg CO\u2082e per liter.</div>
-      </div>
-
-      <div class="card mt2">
-        <h3>Food categories — supply-chain total</h3>
-        <div class="card-sub">Mean kg CO\u2082e / kg by category group</div>
-        <div class="chart-box chart-lg"><canvas id="em-cats"></canvas></div>
+        <div class="card">
+          <h3>Plant-based milk — per-liter CO\u2082e</h3>
+          <div class="card-sub">Coffee-shop pillar (kg CO\u2082e per kg \u2248 liter of milk)</div>
+          <div class="chart-box chart-md"><canvas id="em-milks"></canvas></div>
+          <div class="card-foot">Switching from dairy to the lowest-GHG plant milk cuts ~${milks[0] ? fmt((milks.find(m => m.food === 'Dairy milk') ? milks.find(m => m.food === 'Dairy milk').total : 2.17) - milks[0].total, 2) : '—'} kg CO\u2082e per liter.</div>
+        </div>
+        <div class="card">
+          <h3>Food categories — supply-chain total</h3>
+          <div class="card-sub">Mean kg CO\u2082e / kg by category group</div>
+          <div class="chart-box chart-md"><canvas id="em-cats"></canvas></div>
+        </div>
       </div>
 
       <div class="card mt2">
@@ -833,10 +831,15 @@ const App = (() => {
           x: { title: { display: true, text: 'mean kg CO\u2082e/kg' }, grid: { color: Charts.PALETTE.grid } },
           y: { grid: { display: false }, ticks: { autoSkip: false, font: { size: 11 }, maxRotation: 0, minRotation: 0, callback(value) {
               const label = cRows[value] ? cRows[value].c : String(value);
+              // wrap any label wider than ~20 chars so nothing gets cut off
               const words = label.split(' ');
-              if (words.length <= 4) return label;
-              const mid = Math.ceil(words.length / 2);
-              return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+              let line = '', lines = [];
+              words.forEach(w => {
+                if ((line + ' ' + w).trim().length <= 20) { line = (line + ' ' + w).trim(); }
+                else { lines.push(line); line = w; }
+              });
+              if (line) lines.push(line);
+              return lines.length > 1 ? lines : label;
             } } }
         },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmt(c.raw, 2) + ' kg CO\u2082e/kg (n=' + cRows[c.dataIndex].n + ')' } } } }
