@@ -1,4 +1,4 @@
-# Plant Futures — Institutional 2030 Goals & Implementation Roadmap Dashboard
+# Institutional Institutional 2030 Goals & Implementation Roadmap Dashboard
 
 An interactive, self-contained web dashboard supporting the institutional feasibility report and the
 implementation strategy for the two 2030 goals:
@@ -94,4 +94,4 @@ vendor current-share edits recalculate, re-rendering is error-free). Run it with
 
 ---
 
-*Companion tool for the institutional plant-forward feasibility report — Acterra · Plant Futures Challenge Lab.*
+*Companion tool for the institutional plant-forward feasibility report.*

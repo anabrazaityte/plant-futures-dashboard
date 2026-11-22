@@ -1,6 +1,6 @@
-# Plant Futures — Institutional Plant-Forward Menu Project
+# Institutional Plant-Forward Menu Project
 
-Project for **Acterra · Plant Futures Challenge Lab**.
+Feasibility project dashboard (prepared with Acterra)..
 
 ## Contents
 

@@ -1,21 +1,21 @@
 /* ==========================================================================
-   Plant Futures — Chart helpers (Chart.js wrapper, design-system themed)
+   Institutional Chart helpers (Chart.js wrapper, design-system themed)
    ========================================================================== */
 'use strict';
 
 const Charts = (() => {
 
   const PALETTE = {
-    plant: '#8DA335',
-    plantLight: '#c3d08f',
-    animal: '#F37321',
-    dairy: '#c6a72c',
-    ink: '#1F1717',
-    muted: '#6f6c60',
-    grid: 'rgba(111,108,96,0.16)',
-    forest: '#525733',
-    sage: '#a3b45e',
-    cream: '#FEFFF8'
+    plant: '#4a6b52',
+    plantLight: '#9fb2a4',
+    animal: '#b97a43',
+    dairy: '#a9913f',
+    ink: '#20251e',
+    muted: '#7a8076',
+    grid: 'rgba(122,128,118,0.16)',
+    forest: '#31493a',
+    sage: '#7d9487',
+    cream: '#f7f6f2'
   };
 
   Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Plant Futures — Real data, goals & roadmap
+   Institutional Real data, goals & roadmap
    Vendor rows are auto-generated from the client's spreadsheet
    (dashboard/data/Client_VendorsList_PlantFutures_FY27-Updated.xlsx) in
    js/vendor-data.js; emission factors from N_America_Emission_Factors.xlsx in
@@ -42,13 +42,13 @@ const DATA = (() => {
 
   /* group metadata for display (keyed by vendor.group) */
   const GROUP_META = {
-    'Cafe / coffee shops':             { emoji: '\u2615', color: '#8DA335' },
-    'Juice bars':                      { emoji: '\u{1f966}', color: '#a3b45e' },
-    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#525733' },
-    'Full-service dining':             { emoji: '\u{1f372}', color: '#c3d08f' },
-    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#F37321' },
-    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#c6a72c' },
-    'Other':                           { emoji: '\u{1f960}', color: '#6f6c60' }
+    'Cafe / coffee shops':             { emoji: '\u2615', color: '#4a6b52' },
+    'Juice bars':                      { emoji: '\u{1f966}', color: '#7d9487' },
+    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#31493a' },
+    'Full-service dining':             { emoji: '\u{1f372}', color: '#9fb2a4' },
+    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#b97a43' },
+    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#a9913f' },
+    'Other':                           { emoji: '\u{1f960}', color: '#7a8076' }
   };
 
   /* ------------------------------------------------------------------ */
@@ -75,7 +75,7 @@ const DATA = (() => {
         name: 'Phase 1 \u2014 Communication & Preparation',
         window: 'Through first half of 2027',
         pillars: 'All vendors',
-        desc: 'Communicate expectations (goals, minimum contributions, timeline), review contracts and flag franchise/ending-contract limitations, appoint internal sustainability leads, and establish the baselines needed to measure progress (plant-based milk share, plant-based sales share, estimated emissions baseline, unsold-food volumes and destinations). Distribute vendor toolkits; lay out the CO2e calculation method.',
+        desc: 'Communicate expectations, review contracts, appoint sustainability leads, and establish baselines needed to measure progress.',
         kpis: [
           { id: 'contracts',     label: 'Vendor contracts reviewed (franchise approval paths confirmed)', metric: '# vendors', target: 35 },
           { id: 'leads',         label: 'Vendors with a named sustainability lead',                      metric: '# vendors', target: 35 },
@@ -88,7 +88,7 @@ const DATA = (() => {
         name: 'Phase 2 \u2014 Early Implementation / Pilot & Training',
         window: 'Second half 2027 \u2013 second half of 2028',
         pillars: 'Coffee shops (2H 2027) \u00b7 Restaurants (planning 2H 2027, training 1H 2028, recipe testing by 2H 2028)',
-        desc: 'Enact the plant-based milk default at coffee shops (as soon as possible; countertop signage; employee training and FAQs; track unsold/spoiled milk). Restaurants: willing/eager vendors pilot first; sustainability leads plan changes; group trainings incl. taste tests; test more dishes than will roll out, launch new items in small batches and track daily unsold counts and destination. Implement priority techniques: taste-focused messaging, improved flavor/appeal, environmental messaging, higher menu ratio, more variety.',
+        desc: 'Enact the coffee-shop plant-based milk default; pilot vendors, train staff with tastings, and test new dishes in small batches.',
         kpis: [
           { id: 'pilotVendors',  label: 'Vendors participating in the pilot (by track)',                metric: '# vendors', target: 35 },
           { id: 'staff',         label: 'Staff trained',                                                 metric: '# staff',   target: null },
@@ -100,7 +100,7 @@ const DATA = (() => {
         name: 'Phase 3 \u2014 Rollout & Promotion',
         window: 'First half of 2029, complete by end of 2029',
         pillars: 'All vendors (incl. any coffee shops not yet on board)',
-        desc: 'Review results of the first two phases and adjust. Roll menu changes out in a coordinated manner with institution-wide promotional messaging. Promote the initiative as a whole and rotate featured vendors to incentivize participation and signal to environmentally conscious clientele how they can support the goals.',
+        desc: 'Roll changes out institution-wide with coordinated promotion and rotating featured vendors.',
         kpis: [
           { id: 'launched',      label: 'Vendors that launched changes on schedule',                     metric: '# vendors', target: 35 },
           { id: 'items',         label: 'New plant-based items launched',                                metric: '# items',   target: null }
@@ -122,7 +122,7 @@ const DATA = (() => {
       },
       {
         id: 'menu', name: 'Menu KPIs', emoji: '\u{1f372}',
-        desc: 'Baseline plant-based menu share per vendor is available today (Client_VendorsList_PlantFutures_FY27-Updated.xlsx); institution target = +30% vs baseline.',
+        desc: 'Baseline menu share is available per vendor; institution target = +30% vs baseline.',
         kpis: [
           { id: 'menu-30',          label: 'Progress toward 2030 goal: +30% plant-based options institution-wide', metric: '% vs baseline' },
           { id: 'menu-share-vendor',label: 'Plant-based share of total menu items, per vendor',                    metric: '% menu' },
@@ -133,7 +133,7 @@ const DATA = (() => {
       },
       {
         id: 'emissions', name: 'Emissions', emoji: '\u{1f30d}',
-        desc: 'Reduction in kg CO2e against [baseline year] emissions toward the 25% goal \u2014 reported separately for the milk initiative, the menu initiative, and combined. Emissions baseline to be established in Phase 1.',
+        desc: 'Reduction toward the 25% goal, reported for the milk initiative, menu initiative, and combined.',
         kpis: [
           { id: 'co2-milk',     label: 'CO2e reduction \u2014 plant-based milk initiative',  metric: 'kg CO2e' },
           { id: 'co2-menu',     label: 'CO2e reduction \u2014 menu initiative',               metric: 'kg CO2e' },
@@ -142,7 +142,7 @@ const DATA = (() => {
       },
       {
         id: 'waste', name: 'Food waste KPIs', emoji: '\u{1f9fa}',
-        desc: 'Tracked from Phase 2 during testing/pilot; baselines established in Phase 1.',
+        desc: 'Tracked from Phase 2 (testing/pilot); baselines established in Phase 1.',
         kpis: [
           { id: 'unsold-counts',  label: 'Daily unsold counts for new plant-based items',         metric: '# items/day' },
           { id: 'waste-split',    label: 'Share of unsold food donated or composted (donation preferred)', metric: '% unsold' },
@@ -151,7 +151,7 @@ const DATA = (() => {
       },
       {
         id: 'experience', name: 'Customer & employee experience', emoji: '\u{1f465}',
-        desc: 'Track satisfaction alongside the operational KPIs.',
+        desc: 'Track satisfaction alongside operational KPIs.',
         kpis: [
           { id: 'customer-sat',  label: 'Customer satisfaction',                 metric: 'score' },
           { id: 'employee-sat',  label: 'Employee satisfaction & sense of contribution', metric: 'score' }
@@ -160,7 +160,7 @@ const DATA = (() => {
     ],
     reporting: {
       cadence: 'Monthly vendor reporting during Phases 1-2; quarterly check-ins plus brief end-of-year reports after rollout.',
-      definitions: 'SOPs ensure shared definitions (vegan main, ready-as-listed, etc.) and a standardized data set per vendor (item-level sales tagged by category), with an institution reporting lead responsible for translating vendor data into key metrics.'
+      definitions: 'SOPs standardize definitions and the per-vendor data set; a reporting lead translates vendor data into key metrics.'
     }
   };
 

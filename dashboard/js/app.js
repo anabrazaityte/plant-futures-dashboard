@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Plant Futures — Institutional Plant-Forward Menu Dashboard
+   Institutional Institutional Plant-Forward Menu Dashboard
    Main application: state, navigation, views, interactions, charts.
    Data-driven from the client's vendor spreadsheet and emission factors and
    the Implementation Roadmap.
@@ -174,8 +174,8 @@ const App = (() => {
     const el = document.getElementById('view-overview');
     el.innerHTML = `
       <section class="hero">
-        <div class="eyebrow">Plant Futures \u00b7 Institutional dashboard</div>
-        <h1>Plant-forward food service — 2030 goals &amp; implementation roadmap</h1>
+        <div class="eyebrow">Institutional dashboard</div>
+        <h1>2030 goals &amp; implementation roadmap</h1>
         <p>A working dashboard built on the institution\u2019s real vendor menu data, North America emission factors,
         and the implementation roadmap. Baselines to be confirmed and measured in Phase&nbsp;1 of the roadmap.</p>
         <div class="chips">
@@ -201,10 +201,8 @@ const App = (() => {
           ${goalBlock(DATA.GOALS.options.short, fmtPct(st.currentShare, 1) + ' men\u00fc share', fmtPct(optsTarget, 1), oPct, oCls)}
           ${goalBlock(DATA.GOALS.emissions.short, hasEmiss ? fmtT(currEmiss) + ' CO\u2082e' : 'baseline TBD (Phase 1)', hasEmiss ? fmtT(ghgTarget) : '\u2014', ePct, eCls)}
           <div class="callout ok" style="margin:12px 0 0">
-            <strong>Where we are.</strong> The institution\u2019s baseline plant-based menu share is
-            <strong>${fmtPct(st.baselineShare, 1)}</strong> (mean of ${DATA.VENDORS.length} vendors; vegan-only subset
-            ${fmtPct(st.veganBaseline, 1)}%). The 2030 goal is a <strong>+30%</strong> increase in plant-based options.
-            The ${DATA.GOALS.targetYear} emissions baseline will be measured in <strong>Phase 1</strong> of the roadmap.
+            <strong>Baseline plant-based menu share:</strong> ${fmtPct(st.baselineShare, 1)} (${DATA.VENDORS.length} vendors) \u00b7 target
+            +${DATA.GOALS.options.targetPct}% = ${fmtPct(optsTarget, 1)} \u00b7 the ${DATA.GOALS.targetYear} emissions baseline is measured in Phase 1.
           </div>
         </div>
         <div class="card">
@@ -250,14 +248,13 @@ const App = (() => {
           <div class="mt2">${timelineHTML()}</div>
         </div>
         <div class="card">
-          <h3>Coming next</h3>
-          <ul style="padding-left:18px;margin:0;line-height:1.9;font-size:13.5px;color:var(--ink-soft)">
-            <li><strong>Phase 1:</strong> review contracts, name sustainability leads, set targets, distribute reporting SOPs.</li>
-            <li><strong>Phase 1:</strong> measure baselines (plant-based milk use, sales share, emissions, unsold food).</li>
-            <li><strong>Phase 2:</strong> plant-based milk default pilot at coffee shops; restaurant training &amp; dish testing.</li>
-            <li><strong>Phase 3:</strong> coordinated menu rollout and campaign promotion through EOY 2029.</li>
+          <h3>Roadmap &amp; what\u2019s tracked</h3>
+          <ul style="padding-left:18px;margin:0;line-height:1.7;font-size:13px;color:var(--ink-soft)">
+            <li><strong>Phase 1</strong> — contracts, leads, targets, baselines</li>
+            <li><strong>Phase 2</strong> — milk default pilot, training, dish tests</li>
+            <li><strong>Phase 3</strong> — rollout &amp; promotion by EOY 2029</li>
           </ul>
-          <div class="callout tip mt1"><strong>What this dashboard tracks:</strong> the roadmap\u2019s phase KPIs, plant-based milk KPIs, menu KPIs, emissions, food-waste KPIs, and customer/employee experience.</div>
+          <div class="callout tip mt1">Tracks: phase KPIs, plant-based milk, menu, emissions, food waste, experience.</div>
         </div>
       </div>
     `;
@@ -476,17 +473,13 @@ const App = (() => {
           <h3>Baselines, targets &amp; reporting</h3>
           <span class="badge-util">${new Date().getFullYear()} \u2192 ${DATA.GOALS.targetYear}</span>
         </div>
-        <div style="line-height:1.7;font-size:13.5px;color:var(--ink-soft);margin-top:6px">
-          <p style="margin:0 0 8px"><strong>Where progress is measured.</strong> Baseline plant-based menu share is already
-          available per vendor and institution-wide (${fmtPct(Calc.institutionStats(state.measured).baselineShare, 1)} on
-          average). Vendor baselines for <strong>plant-based milk use, emissions, and unsold food</strong> are not yet
-          available \u2014 they will be established in Phase 1, and vendor-specific targets set against them.</p>
-          <p style="margin:0 0 8px"><strong>How to use this page.</strong> Each KPI has an editable <em>now</em> value and an
-          editable <em>target</em>. Enter the current count as you measure it, and the progress bar and phase completion update
-          automatically. Values are saved in your browser.</p>
-          <p style="margin:0 0 8px"><strong>Reporting:</strong> ${esc(R.reporting.cadence)}</p>
-          <p style="margin:0"><strong>Definitions:</strong> ${esc(R.reporting.definitions)}</p>
-        </div>
+        <p style="line-height:1.55;font-size:13.5px;color:var(--ink-soft);margin:8px 0 0">
+          <strong>Menu share</strong> baseline: ${fmtPct(Calc.institutionStats(state.measured).baselineShare, 1)} · milk, emissions
+          &amp; food-waste baselines to be established in <strong>Phase 1</strong>.
+        </p>
+        <p style="line-height:1.55;font-size:13.5px;color:var(--ink-soft);margin:6px 0 0">
+          Set each KPI’s <strong>now</strong> and <strong>target</strong>; progress and phase completion update automatically.
+        </p>
       </div>
 
       <div class="card mt2">

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Plant Futures — Calculation helpers (real data)
+   Institutional Calculation helpers (real data)
    Pure functions over the real vendor menu-share baselines, the North
    America Coolfood emission factors, and the implementation-roadmap KPIs.
    ========================================================================== */
