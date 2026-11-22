@@ -42,13 +42,13 @@ const DATA = (() => {
 
   /* group metadata for display (keyed by vendor.group) */
   const GROUP_META = {
-    'Cafe / coffee shops':             { emoji: '\u2615', color: '#4a6b52' },
-    'Juice bars':                      { emoji: '\u{1f966}', color: '#7d9487' },
-    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#31493a' },
-    'Full-service dining':             { emoji: '\u{1f372}', color: '#9fb2a4' },
-    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#b97a43' },
-    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#a9913f' },
-    'Other':                           { emoji: '\u{1f960}', color: '#7a8076' }
+    'Cafe / coffee shops':             { emoji: '\u2615', color: '#8DA335' },
+    'Juice bars':                      { emoji: '\u{1f966}', color: '#a8b954' },
+    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#6b791f' },
+    'Full-service dining':             { emoji: '\u{1f372}', color: '#c3cf83' },
+    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#574319' },
+    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#a8912f' },
+    'Other':                           { emoji: '\u{1f960}', color: '#6f6e63' }
   };
 
   /* ------------------------------------------------------------------ */

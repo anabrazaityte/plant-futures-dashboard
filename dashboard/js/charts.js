@@ -6,16 +6,16 @@
 const Charts = (() => {
 
   const PALETTE = {
-    plant: '#4a6b52',
-    plantLight: '#9fb2a4',
-    animal: '#b97a43',
-    dairy: '#a9913f',
-    ink: '#20251e',
-    muted: '#7a8076',
-    grid: 'rgba(122,128,118,0.16)',
-    forest: '#31493a',
-    sage: '#7d9487',
-    cream: '#f7f6f2'
+    plant: '#8DA335',
+    plantLight: '#c3cf83',
+    animal: '#574319',
+    dairy: '#a8912f',
+    ink: '#1F1717',
+    muted: '#6f6e63',
+    grid: 'rgba(111,110,99,0.18)',
+    forest: '#6b791f',
+    sage: '#a8b954',
+    cream: '#FEFFF8'
   };
 
   Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';

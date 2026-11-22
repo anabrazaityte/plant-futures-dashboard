@@ -4,41 +4,43 @@
    ========================================================================== */
 
 :root {
-  /* palette — one refined deep-green accent on warm neutrals.
-     Minimal, modern, no pea-green/orange clash, no brown sidebar. */
-  --accent:      #4a6b52;    /* deep muted green — the single accent */
-  --accent-dark: #31493a;
-  --accent-soft: #e6ede4;
+  /* palette — Acterra on mostly-off-white.
+     Primary: brand green #8DA335; pairing: deep olive #574319 (same leaf family).
+     Base: brand near-white #FEFFF8; ink: brand near-black #1F1717.
+     The blue/purple/cyan accents are omitted to keep the olive temperature. */
+  --accent:      #8DA335;    /* Acterra green — primary accent */
+  --accent-dark: #574319;    /* Acterra deep olive — pairing for depth */
+  --accent-soft: #f0f2df;    /* pale green tint */
 
-  --forest-950: #20251e;     /* sidebar: near-black green-grey (not brown) */
-  --forest-900: #262d25;
-  --forest-800: #2e3a30;
-  --forest-700: #3b4a3c;
-  --forest-600: #425843;
-  --forest-500: #4a6b52;
-  --sage-400: #7d9487;
-  --sage-300: #9fb2a4;
-  --sage-200: #cdd8cf;
-  --sage-100: #e7ede5;
-  --sage-50:  #f2f4f0;
+  --forest-950: #1F1717;     /* brand near-black (sidebar + ink) */
+  --forest-900: #2b2b19;
+  --forest-800: #3e421f;
+  --forest-700: #6b791f;
+  --forest-600: #7d9123;
+  --forest-500: #8DA335;
+  --sage-400: #a8b954;
+  --sage-300: #c3cf83;
+  --sage-200: #dfe7b8;
+  --sage-100: #edf0d9;
+  --sage-50:  #f4f6e8;
 
-  --bg:       #f7f6f2;       /* warm, soft off-white */
+  --bg:       #FEFFF8;       /* brand near-white — almost all off-white */
   --paper:    #ffffff;
   --card:     #ffffff;
-  --ink:      #20251e;
-  --ink-soft: #4b524a;
-  --muted:    #7a8076;
-  --line:     #e6e4dc;
+  --ink:      #1F1717;       /* brand near-black */
+  --ink-soft: #45433c;
+  --muted:    #6f6e63;
+  --line:     #e7e6dd;
   --line-soft:#efece5;
 
-  --terracotta: #b97a43;     /* single warm highlight (e.g. 'now' dot) */
-  --terracotta-soft: #f3e8db;
-  --amber:       #bb9540;
-  --amber-soft:  #f5eed8;
+  --terracotta: #6b791f;     /* warm olive-green highlight (e.g. 'now' dot) */
+  --terracotta-soft: #eef0d9;
+  --amber:       #a8912f;
+  --amber-soft:  #f6efd8;
   --red:         #b26a4a;
   --red-soft:    #f4e6dd;
-  --green:       #4a6b52;
-  --green-soft:  #e6ede4;
+  --green:       #8DA335;
+  --green-soft:  #edf0d9;
 
   /* type — clean modern sans throughout */
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -154,7 +156,7 @@ h1, h2, h3, h4, h5 {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: var(--card);
+  background: linear-gradient(180deg, #ffffff 0%, var(--sage-50) 100%);
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
   border-radius: var(--radius-lg);
@@ -168,7 +170,7 @@ h1, h2, h3, h4, h5 {
 .hero h1 { color: var(--forest-950); font-size: clamp(22px, 2.6vw, 30px); max-width: 720px; }
 .hero p { color: var(--ink-soft); max-width: 640px; margin: 10px 0 0; font-size: 14.5px; }
 .hero .chips { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; position: relative; z-index: 1; }
-.chip { background: var(--sage-50); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 5px 13px; font-size: 12.5px; }
+.chip { background: var(--green-soft); border: 1px solid var(--sage-200); color: var(--accent-dark); border-radius: 999px; padding: 5px 13px; font-size: 12.5px; }
 
 /* ---------- Section headers ---------- */
 .section-head { display: flex; align-items: flex-end; gap: 16px; margin: 6px 0 18px; flex-wrap: wrap; }
