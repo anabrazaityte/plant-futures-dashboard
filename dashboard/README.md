@@ -27,20 +27,19 @@ python3 -m http.server 8000     # optional; a server avoids localStorage quirks 
 - **State persistence** — your inputs (measured vendor shares, roadmap KPI progress, emissions baseline/current)
   are saved to the browser's `localStorage` and restored on next load.
 
-## The five views
+## VIEWS
 
 | View | What it does |
 |---|---|
-| **Overview** | 2030 goals at a glance: institution-wide baseline plant-based menu share computed from the vendor list, the +30% target share, emissions tracking, roadmap overall progress, plant share by establishment type, and the highest-impact food categories. |
-| **Vendors** | All 35 real vendors (names removed) grouped by establishment type — cuisine, hours, popular items, vegetarian/vegan options and baseline menu shares; each card has an editable **measured now** field that feeds institution goal progress. |
-| **Roadmap** | The three implementation phases (Communication & Preparation → Pilot & Training → Rollout & Promotion) with their full KPI list, editable per-KPI progress values, per-phase completion, the cross-cutting KPI groups (plant-based milk, menu, emissions, food waste, customer/employee experience), and the baseline/targets/reporting notes. |
-| **Emissions** | All North America emission factors (Coolfood): per-food table, supply-chain totals by category, plant-based milk per-liter comparison, and an editable baseline→current tracker toward the −25% goal. |
-| **Data & sources** | Provenance and caveats for the vendor data, emission factors, and the roadmap. |
+| **Overview** | 2030 goals at a glance: institution-wide baseline plant-based menu share, the +30% target share, emissions tracking, roadmap overall progress, plant share by establishment type, highest-impact food categories, and a clickable reporting timeline. |
+| **Vendors** | All 35 real vendors (names removed). Filter by service type, sort/rank by plant-based or vegan share, toggle the vegetarian/vegan menu options shown, and record each vendor's current share with a clearly-labelled slider that feeds the institution goal. |
+| **Roadmap** | Baselines/targets/reporting at the top, a clickable timeline that marks the current year, the three phases (each KPI row has editable **Now** and **Target**), and all cross-cutting KPI groups as interactive trackers. |
+| **Emissions & data** | Emission-factor chart + per-liter milk comparison, an editable baseline→current tracker toward −25%, the full factor table, methodology/caveats, and references. |
 
 ## Data
 
-- **Vendors** — 35 vendors from `Vendor_List.xlsx` (kept private). Baseline plant-based (vegetarian) menu
-  share ≈ **28.8%**; vegan-only ≈ **9.9%**; 7 vendors on the coffee-shop track. Machine-readable in
+- **Vendors** — 35 vendors from `Client_VendorsList_PlantFutures_FY27-Updated.xlsx` (kept private). Baseline plant-based (vegetarian) menu
+  share ≈ **25.2%**; vegan-only ≈ **9.1%**; 7 vendors on the coffee-shop track. Machine-readable in
   `js/vendor-data.js`.
 - **Emission factors** — North America factors from `N_America_Emission_Factors.xlsx` (kept private). WRI
   Coolfood Pledge Calculator NA, underlying Poore & Nemecek (2018) regional averages. Headline metric:
@@ -57,7 +56,7 @@ Published to GitHub Pages (auto-deploys on every push to `main`):
 ## Methodology (transparent + editable)
 
 - **Options goal** — baseline plant-based menu share from the vendor list; target = baseline × 1.30 (+30%
-  relative increase). Current share is the mean of each vendor's *measured now* field.
+  relative increase). Current share is the mean of each vendor's *recorded current* share slider.
 - **Emissions goal** — the institution enters baseline-year and current annual kg CO₂e (measured in Phase 1 per
   the roadmap); progress toward −25%.
 - **Roadmap progress** — per-KPI counts are entered manually each reporting period; phase progress is the
@@ -71,7 +70,7 @@ Published to GitHub Pages (auto-deploys on every push to `main`):
 dashboard/
   index.html              # app shell
   css/styles.css          # design system
-  js/vendor-data.js       # real vendor rows (values from private Vendor_List.xlsx)
+  js/vendor-data.js       # real vendor rows (values from private Client_VendorsList_PlantFutures_FY27-Updated.xlsx)
   js/emission-data.js     # real emission factors (values from private N_America_Emission_Factors.xlsx)
   js/data.js              # goals, baselines, roadmap phases & KPIs, sources
   js/calc.js              # calculation helpers (pure functions)
@@ -86,8 +85,8 @@ To regenerate the two data files from the spreadsheets, run `python3 /tmp/kilo/g
 
 ## Testing
 
-The dashboard is validated with a headless jsdom smoke test (all five views render, roadmap KPI edits and
-vendor measured-share edits recalculate, re-rendering is error-free). Run it with the Node binary:
+The dashboard is validated with a headless jsdom smoke test (all views render, roadmap KPI edits and
+vendor current-share edits recalculate, re-rendering is error-free). Run it with the Node binary:
 
 ```
 /tmp/kilo/nodeenv/bin/node /tmp/kilo/jstest/smoke.js

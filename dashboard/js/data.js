@@ -1,10 +1,11 @@
 /* ==========================================================================
    Plant Futures — Real data, goals & roadmap
-   Vendor/emission rows are auto-generated from the client's spreadsheets
-   (dashboard/data/Vendor_List.xlsx and N_America_Emission_Factors.xlsx) in
-   js/vendor-data.js and js/emission-data.js. This file adds the institution
-   goals, KPI definitions, and roadmap structure from the Implementation
-   Roadmap (dashboard/data/Implementation_roadmap.pdf).
+   Vendor rows are auto-generated from the client's spreadsheet
+   (dashboard/data/Client_VendorsList_PlantFutures_FY27-Updated.xlsx) in
+   js/vendor-data.js; emission factors from N_America_Emission_Factors.xlsx in
+   js/emission-data.js. This file adds the institution goals, KPI definitions,
+   and roadmap structure from the Implementation Roadmap
+   (dashboard/data/Implementation_roadmap.pdf).
    ========================================================================== */
 'use strict';
 
@@ -42,14 +43,12 @@ const DATA = (() => {
   /* group metadata for display (keyed by vendor.group) */
   const GROUP_META = {
     'Cafe / coffee shops':             { emoji: '\u2615', color: '#7a5c3d' },
-    'Full-service dining':             { emoji: '\u{1f372}', color: '#5a3d8a' },
-    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#a35a2b' },
-    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#b4493c' },
-    'Bars':                            { emoji: '\u{1f378}', color: '#7a4a2b' },
-    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#3b6f8f' },
-    'Grab-and-go, deli & market':      { emoji: '\u{1f9fa}', color: '#6b7a3d' },
-    'Juice bars':                      { emoji: '\u{1f966}', color: '#3e825e' },
-    'Other':                           { emoji: '\u{1f960}', color: '#46584e' }
+    'Full-service dining & bars':      { emoji: '\u{1f375}', color: '#9a5b2e' },
+    'Full-service dining':             { emoji: '\u{1f372}', color: '#5f4a8a' },
+    'Casual sit-down & bars':          { emoji: '\u{1f379}', color: '#b4553a' },
+    'Fast casual & grab-and-go':       { emoji: '\u{1f35c}', color: '#3f6f86' },
+    'Juice bars':                      { emoji: '\u{1f966}', color: '#2f7d52' },
+    'Other':                           { emoji: '\u{1f960}', color: '#7a5c3d' }
   };
 
   /* ------------------------------------------------------------------ */
@@ -123,7 +122,7 @@ const DATA = (() => {
       },
       {
         id: 'menu', name: 'Menu KPIs', emoji: '\u{1f372}',
-        desc: 'Baseline plant-based menu share per vendor is available today (Vendor_List.xlsx); institution target = +30% vs baseline.',
+        desc: 'Baseline plant-based menu share per vendor is available today (Client_VendorsList_PlantFutures_FY27-Updated.xlsx); institution target = +30% vs baseline.',
         kpis: [
           { id: 'menu-30',          label: 'Progress toward 2030 goal: +30% plant-based options institution-wide', metric: '% vs baseline' },
           { id: 'menu-share-vendor',label: 'Plant-based share of total menu items, per vendor',                    metric: '% menu' },
@@ -169,7 +168,7 @@ const DATA = (() => {
   /* 5. SOURCES                                                          */
   /* ------------------------------------------------------------------ */
   const SOURCES = [
-    { title: 'Vendor menu-share baseline data', meta: 'Client Vendor_List.xlsx (sheet: "Prominent Vendor List") \u2014 35 vendors: cuisine, establishment type, date opened, sustainability commitments, hours, popular menu items, vegetarian & vegan options and menu-share percentages. Business names removed for privacy.', url: null },
+    { title: 'Vendor menu-share baseline data', meta: 'Client Client_VendorsList_PlantFutures_FY27-Updated.xlsx (sheet: "Prominent Vendor List") \u2014 35 vendors: cuisine, establishment type, vegetarian & vegan options and menu-share percentages. Business names removed for privacy.', url: null },
     { title: 'Emission factors (North America)', meta: 'Client N_America_Emission_Factors.xlsx \u2014 WRI Coolfood Pledge Calculator (version June 25, 2026; coolfood.org); methods in "Tracking Progress Toward the Coolfood Pledge, 2026 update" (wri.org). Underlying data: Poore & Nemecek (2018), Science 360(6392):987-992, North America regional averages. Unit: kg CO2e per kg of food purchased. Headline metric: Supply chain total (on-farm + off-farm); carbon opportunity cost intentionally excluded.', url: 'https://www.coolfood.org' },
     { title: 'Implementation roadmap', meta: 'Client Implementation_roadmap.pdf \u2014 three-phase plan (Communication & Preparation through 1H 2027; Early Implementation / Pilot & Training 2H 2027\u20132H 2028; Rollout & Promotion 1H 2029\u2013EOY 2029) with progress KPIs per phase, plant-based milk KPIs, menu KPIs, emissions, food-waste KPIs, and customer/employee experience metrics.', url: null }
   ];

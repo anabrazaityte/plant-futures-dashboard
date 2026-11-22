@@ -7,14 +7,14 @@
 
 const Calc = (() => {
 
-  const { GOALS, VENDORS, BASELINE_VEG_SHARE, BASELINE_VEGAN_SHARE } = DATA;
+  const { GOALS, VENDORS } = DATA;
 
   const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 
   /* ---------------- 2030 goals ---------------- */
 
   /* Goal 1: +30% plant-based menu options relative to baseline.
-     Baseline = institution-wide weighted-mean vegetarian menu share. */
+     Baseline = institution-wide mean vegetarian menu share. */
   function optionsTargetShare(baselineShare) { // baselineShare in percent (0-100)
     return baselineShare * (1 + GOALS.options.targetPct / 100);
   }
@@ -53,29 +53,27 @@ const Calc = (() => {
     };
   }
 
-  /* ---------------- roadmap phase progress ---------------- */
+  /* ---------------- roadmap KPI progress ---------------- */
 
-  /* progress: 0-100 for a single KPI given its current value (and target if set).
-     Returns null when no numeric target exists (count-only KPI). */
-  function kpiProgress(kpi, value, overrideTarget) {
-    const v = value == null || isNaN(value) ? 0 : Number(value);
-    const t = overrideTarget != null ? Number(overrideTarget) : kpi.target;
-    if (t == null || !(t > 0)) return null; // no numeric target -> n/a
-    return clamp(v / t * 100, 0, 100);
+  /* progress 0-100 for a single KPI given its current value and (optionally) target.
+     Returns null when no numeric target is set (count-only KPI). */
+  function kpiPct(now, target) {
+    const n = +now || 0;
+    const t = target != null && target !== '' ? +target : null;
+    if (t == null || !(t > 0)) return null;
+    return clamp(n / t * 100, 0, 100);
   }
 
-  function phaseProgress(phase, values) { // values = { kpiId: current }, averages target-based KPIs only
-    const pcts = (phase.kpis || [])
-      .map(k => kpiProgress(k, values && values[k.id]))
-      .filter(x => x != null);
+  /* average % progress across a list of KPIs, resolving each via resolver(k) -> {now, target} */
+  function avgPct(kpis, resolver) {
+    const pcts = (kpis || []).map(k => kpiPct(resolver(k).now, resolver(k).target)).filter(x => x != null);
     return pcts.length ? pcts.reduce((a, b) => a + b, 0) / pcts.length : 0;
   }
 
   return {
     clamp, optionsTargetShare, optionsProgress,
     emissionsTarget, emissionsProgress,
-    institutionStats, kpiProgress, phaseProgress,
-    BASELINE_VEG_SHARE, BASELINE_VEGAN_SHARE
+    institutionStats, kpiPct, avgPct
   };
 })();
 
